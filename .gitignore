@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Auto-generated CSS (Tailwind builds this dynamically)
+css/output.css
+
+# OS files
+.DS_Store
+*.log
