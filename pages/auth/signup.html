@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/12ec0fec7b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/output.css">
+    <title>Sign Up</title>
+</head>
+<body>
+    
+    <main class="w-full h-screen">
+        <div class="section-container flex items-center justify-center bg-linear-to-b from-white to-yellow-100 p-6 h-screen box-border">
+            <section class="flex flex-col flex-1 h-full p-3">
+                <div class="app-title border w-1/3 sm:w-1/4 md:w-1/5 bg-yellow-300 text-center rounded-3xl py-2">
+                    <span>Tickedlist</span>
+                </div>
+                <div class="form-container flex items-center flex-col justify-center h-full w-full">
+                    <form action="" id="signupForm" class="w-full max-w-md flex flex-col justify-center gap-2 rounded-2xl">
+                        <header class="flex flex-col items-center text-center gap-1">
+                            <h1 class="text-2xl text-start" >Create an account</h1>
+                            <span class="text-xs">Start your productive journey at TickedList!</span>
+                        </header>
+                        <span class="text-center w-full wrap-break-word bg-red-600/50 text-white rounded-lg" id="notice"></span>
+                        <fieldset class="flex flex-col gap-2">
+                            <label for="">First Name</label>
+                            <input
+                            id="firstName"
+                            type="text"
+                            placeholder="Enter first name"
+                            class="focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-red-500 focus:invalid:outline-red-500 bg-white px-3 py-2 rounded-3xl"
+                            />
+                            <label for="">Last Name</label>
+                            <input
+                            id="lastName"
+                            type="text"
+                            placeholder="Enter last name"
+                            class="focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-red-500 focus:invalid:outline-red-500 bg-white px-3 py-2 rounded-3xl"
+                            />
+                            <label for="">Email</label>
+                            <input
+                            id="email"
+                            type="email"
+                            placeholder="Enter email"
+                            class="invalid:border-red-500 invalid:text-red-600 focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-red-500 focus:invalid:outline-red-500 bg-white px-3 py-2 rounded-3xl"
+                            />
+                            <label for="">Password</label>
+                            <input
+                            id="password"
+                            type="password"
+                            placeholder="Enter password"
+                            class="bg-white px-3 py-2 rounded-3xl"
+                            />
+                            <label for="">Confirm Password</label>
+                            <input
+                            id="confirmPassword"
+                            type="password"
+                            placeholder="Confirm password"
+                            class="bg-white px-3 py-2 rounded-3xl"
+                            />
+                        </fieldset>
+                        <button id="signupBtn" class="bg-yellow-300 text-white font-bold rounded-lg mt-2 p-1 cursor-pointer" type="submit">Sign up</button>
+                    </form>
+                </div>
+                <div class="section-footer flex justify-between text-xs sm:text-sm">
+                    <span>Already have an account? <a href="login.html" class="underline">Login</a></span>
+                    <a href="" class="underline">Terms & Conditions</a>
+                </div>
+            </section>
+
+            <section class="hidden flex-1 h-full lg:block">
+                <img 
+                src="/assets/images/StockCake-Cozy_Workspace_Vibes-3464658-medium.jpg" 
+                alt=""
+                class="w-full h-full object-cover rounded-2xl"
+                >
+            </section>
+        </div>
+        
+    </main>
+    
+    <script src="/scripts/main.js" type="module"></script>
+</body>
+</html>
