@@ -31,3 +31,30 @@ export async function loginUser(userCredentials) {
         console.log("Error communicating with the database." + error);
     }
 }
+
+export async function logoutUser() {
+    try{
+        const response = await fetch("/api/auth/logout.php", {
+            method: "POST",
+            credentials: "include"
+        });
+
+        const data = await response.json();
+        
+        return data;
+    } catch(error) {
+        console.log("Error communicating with the databse." + error)
+    }
+}
+
+export async function checkSession() {
+    try {
+        const response = await fetch("/api/auth/session.php", {
+            credentials: "include"
+        });
+        const data = await response.json();
+        return data;
+    } catch(error) {
+        console.log("Error checking session: " + error);
+    }
+}

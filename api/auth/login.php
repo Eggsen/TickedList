@@ -43,7 +43,7 @@ if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-$sql = "SELECT id, email, password_hash FROM users WHERE email = ?";
+$sql = "SELECT id, first_name, email, password_hash FROM users WHERE email = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -51,6 +51,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if($user && password_verify($password, $user["password_hash"])) {
     session_regenerate_id(true);
     $_SESSION["user_id"] = $user["id"];
+    $_SESSION["first_name"] = $user["first_name"];
     $_SESSION["email"] = $user["email"];
     echo json_encode([
         "success" => true,
