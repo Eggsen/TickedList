@@ -4,6 +4,7 @@ import { showConfirmDeleteModal, showTaskModal } from "./api/ui/modal.js";
 import { renderTasks } from "./api/ui/tasksUi.js";
 import { filterByDueDate, filterByListType, filterByStatus } from "./api/utils/filterTask.js";
 import { clearForm, generateRandomQuotes, greet, refreshTasks } from "./api/utils/textsHelper.js";
+import { toggleSidebar } from "./api/utils/transitions.js";
 
 const taskModal = document.getElementById("taskModal");
 const notice = document.getElementById("notice");
@@ -39,6 +40,10 @@ if(document.getElementById("quote")) {
 
 if(document.getElementById("deleteBtn")) {
     showConfirmDeleteModal();
+}
+
+if(document.getElementById("collapsableSidebar")) {
+    toggleSidebar();
 }
 
 // Auths

@@ -13,7 +13,6 @@ export async function filterByListType(listType) {
 
             return data.tasks.filter(task => (task.list_type || "").toLowerCase() === filterValue);
         }
-        return [];
     } catch(error) {
         console.log("Error filtering task. " + error);
     }
@@ -26,16 +25,15 @@ export async function filterByDueDate(order) {
         if(data && data.success) {
             let sortedTask = [...data.tasks];
             if(order === "latest") {
-                sortedTask.sort((a, b) => new Date(b.due_date) - new Date(a.due_date));
+                sortedTask.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
                 return sortedTask;
             } else if(order === "oldest") {
-                sortedTask.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+                sortedTask.sort((a, b) => new Date(b.due_date) - new Date(a.due_date));
                 return sortedTask;
             } else if(order === "recent") {
                 return sortedTask.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
             }
         }
-        return [];
     } catch(error) {
         console.log("Error filtering task. " + error);
     }
@@ -54,7 +52,6 @@ export async function filterByStatus(status) {
 
             return data.tasks.filter(task => (task.task_status || "").toLowerCase() === filterValue);
         }
-        return[];
     } catch(error) {
         console.log("Error filtering task. " + error);
     }

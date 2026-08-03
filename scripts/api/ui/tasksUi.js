@@ -3,7 +3,7 @@ import { updateTask } from "../tasksApi.js";
 export async function renderTasks(task, taskContainer, isEditing, onDelete) {
     const taskStatus = document.getElementById("taskStatus");
     const card = document.createElement("div");
-    card.classList.add('flex', 'text-sm', 'md:text-lg', 'px-5', 'py-3', 'px-5', 'rounded-lg', 'items-center', 'justify-between', 'bg-white', 'shadow-md', 'cursor-pointer', 'shadow-blue-500/50');
+    card.classList.add('card', 'flex', 'flex-col', 'gap-2', 'md:flex-row', 'text-sm', 'md:text-lg', 'px-5', 'py-3', 'px-5', 'rounded-lg', 'items-center', 'justify-between', 'bg-white', 'shadow-md', 'cursor-pointer', 'shadow-blue-500/50');
 
     card.addEventListener("click", (e)=> {
         e.preventDefault();
@@ -59,7 +59,7 @@ export async function renderTasks(task, taskContainer, isEditing, onDelete) {
     const listTypeBadge = document.createElement("div");
     listTypeBadge.textContent = task.list_type;
     const categoryClass = task.list_type ? task.list_type.toLowerCase() : '';
-    listTypeBadge.classList.add('task-list-type', categoryClass, 'rounded-md', 'px-3', 'text-sm');
+    listTypeBadge.classList.add('task-list-type', categoryClass, 'rounded-md', 'px-3', 'text-xs', 'md:text-sm');
 
     cardLeft.appendChild(listTypeBadge);
 
