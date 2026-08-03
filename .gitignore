@@ -7,3 +7,5 @@ css/output.css
 # OS files
 .DS_Store
 *.log
+
+*assets
