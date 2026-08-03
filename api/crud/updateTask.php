@@ -57,6 +57,12 @@ if(array_key_exists("editDescription", $data)) {
     $params[] = $task_description;
 }
 
+if(array_key_exists("newStatus", $data)) {
+    $task_status = trim($data["newStatus"] ?? "pending");
+    $updates[] = "task_status = ?";
+    $params[] = $task_status;
+}
+
 if(array_key_exists("editListType", $data)) {
     $list_type = trim($data["editListType"] ?? "personal");
     $updates[] = "list_type = ?";

@@ -1,10 +1,14 @@
+import { updateTask } from "../tasksApi.js";
+
 export async function renderTasks(task, taskContainer, isEditing, onDelete) {
+    const taskStatus = document.getElementById("taskStatus");
     const card = document.createElement("div");
     card.classList.add('flex', 'text-sm', 'md:text-lg', 'px-5', 'py-3', 'px-5', 'rounded-lg', 'items-center', 'justify-between', 'bg-white', 'shadow-md', 'cursor-pointer', 'shadow-blue-500/50');
 
     card.addEventListener("click", (e)=> {
         e.preventDefault();
-
+        
+        taskStatus.innerHTML = `Status: ${task.task_status}`;
         isEditing(task);
         onDelete(task);
     });
@@ -14,6 +18,41 @@ export async function renderTasks(task, taskContainer, isEditing, onDelete) {
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.checked = (task.task_status || "pending").toLowerCase() === "completed";
+
+    const updateBorder = (isCompleted) => {
+        card.classList.remove('border-l-8', 'border-orange-400', 'border-green-600');
+
+        if (isCompleted) {
+            card.classList.add('border-l-8', 'border-green-600');
+        } else {
+            card.classList.add('border-l-8', 'border-orange-400');
+        }
+    };
+
+    updateBorder(checkbox.checked);
+
+    checkbox.addEventListener("click", async (event)=> {
+        event.stopPropagation();
+
+        const isChecked = event.target.checked;
+        const newStatus = isChecked ? "completed" : "pending";
+
+        updateBorder(isChecked);
+
+        const data = await updateTask({id: task.id, newStatus: newStatus});
+
+        if(data && data.success) {  
+            task.task_status = newStatus;   
+            console.log(data.message);
+        } else {
+            event.target.checked = !isChecked;
+            updateBorder(!isChecked);
+            console.log(data.message);
+        }
+
+        console.log(`Task id: ${task.id}. Checked? -> ` + isChecked);
+    });
 
     cardLeft.appendChild(checkbox);
 

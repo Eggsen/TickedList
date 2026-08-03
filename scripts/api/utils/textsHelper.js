@@ -3,6 +3,7 @@ import { checkSession } from "../auth/authApi.js";
 const greeting = document.getElementById("greeting");
 const quote = document.getElementById("quote");
 const tasksContainer = document.querySelector(".tasks-container");
+const taskStatus = document.getElementById("taskStatus");
 
 export async function greet() {
     if (!greeting) return;
@@ -107,4 +108,5 @@ export async function clearForm() {
 
 export function refreshTasks() {
     tasksContainer.innerHTML = "";
+    taskStatus.innerHTML = "";
 }
