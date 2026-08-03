@@ -23,7 +23,7 @@ if(!isset($_SESSION["user_id"])) {
 
 try {
     $currentUserID = $_SESSION["user_id"];
-    $sql = "SELECT id, user_id, title, task_description, task_status, list_type, due_date FROM tasks WHERE user_id = ?";
+    $sql = "SELECT id, user_id, title, task_description, task_status, list_type, due_date, created_at FROM tasks WHERE user_id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$currentUserID]);
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
