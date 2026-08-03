@@ -78,7 +78,7 @@ if(loginForm) {
         const data = await loginUser({email, password});
 
         if(data && data.success) {
-            window.location.href = "/index.html";
+            window.location.href = "/index.php";
         } else if (data) {
             notice.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${data.message}`;
             notice.style.padding = "14px";

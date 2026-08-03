@@ -13,6 +13,14 @@ label {
     color: grey;
 }
 
+button {
+    cursor: pointer;
+}
+
+.auth-btn {
+    background-color: rgb(13, 27, 58);
+}
+
 .item {
     align-items: center;
     gap: 6px;

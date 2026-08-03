@@ -12,57 +12,7 @@
 </head>
 <body class="w-full h-screen flex relative overflow-hidden">
     
-    <aside id="collapsableSidebar" class="flex flex-col h-full flex-none transition-all duration-300 ease-in-out w-16 py-6 px-3 bg-yellow-400 md:bg-white border-b-8 border-amber-300 items-center overflow-hidden">
-        <div class="sidebar-header flex justify-center items-center w-full">
-            <span id="menu" class="sidebar-text hidden text-2xl ml-3 font-semibold">Menu</span>
-            <i id="hamburger" class="fa-solid fa-bars text-xl cursor-pointer"></i>
-        </div>
-        <div id="sidebarItems" class="item-container flex-1 mt-6 overflow-y-auto flex flex-col gap-2 w-full">
-            <span class="sidebar-text hidden font-semibold ml-3">TASKS</span>
-            <div class="icons tasks flex flex-col items-center gap-2">
-                <div class="item py-2 px-3 rounded-md flex items-center gap-3 hover:bg-yellow-400/50 hover:ease-in hover:pl-5 duration-200 cursor-pointer">
-                    <i class="fa-solid fa-angles-right text-lg"></i>
-                    <a href="" class="sidebar-text hidden whitespace-nowrap">Upcoming</a>
-                </div>
-                <div class="item py-2 px-3 rounded-md flex items-center gap-3 hover:bg-yellow-400/50 hover:ease-in hover:pl-5 duration-200 cursor-pointer">
-                    <i class="fa-solid fa-sun text-lg"></i>
-                    <a href="" class="sidebar-text hidden whitespace-nowrap">Today</a>
-                </div>
-                <div class="item py-2 px-3 rounded-md flex items-center gap-3 hover:bg-yellow-400/50 hover:ease-in hover:pl-5 duration-200 cursor-pointer">
-                    <i class="fa-solid fa-note-sticky text-lg"></i>
-                    <a href="" class="sidebar-text hidden whitespace-nowrap">Sticky Notes</a>
-                </div>
-            </div>
-            <span class="sidebar-text hidden font-semibold ml-3">LISTS</span>
-            <div class="icons list flex flex-col items-center gap-2">
-                <div class="item py-2 px-3 rounded-md flex items-center gap-3 hover:bg-yellow-400/50 hover:ease-in hover:pl-5 duration-200 cursor-pointer">
-                    <i class="fa-solid fa-rectangle-list text-lg"></i>
-                    <a href="" class="sidebar-text hidden whitespace-nowrap">Personal</a>
-                </div>
-                <div class="item py-2 px-3 rounded-md flex items-center gap-3 hover:bg-yellow-400/50 hover:ease-in hover:pl-5 duration-200 cursor-pointer">
-                    <i class="fa-solid fa-rectangle-list text-lg"></i>
-                    <a href="" class="sidebar-text hidden whitespace-nowrap">Work</a>
-                </div>
-                <div class="item py-2 px-3 rounded-md flex items-center gap-3 hover:bg-yellow-400/50 duration-200 cursor-pointer">
-                    <i class="fa-solid fa-plus text-lg"></i>
-                    <a href="" class="sidebar-text hidden whitespace-nowrap">Add List Type</a>
-                </div>
-            </div>
-            <span class="sidebar-text hidden font-semibold ml-3">TAGS</span>
-            <div class="icons tags flex flex-col items-center gap-2">
-            </div>
-        </div>
-        <div id="sidebarFooter" class="icons sidebar-footer items-center mt-auto pt-4 flex flex-col gap-2 w-full">
-            <div class="item py-2 px-3 rounded-md flex items-center gap-3 hover:bg-yellow-400/50 hover:ease-in hover:pl-5 duration-200 cursor-pointer">
-                <i class="fa-solid fa-gears text-lg"></i>
-                <a href="" class="sidebar-text hidden whitespace-nowrap">Settings</a>
-            </div>
-            <div class="item py-2 px-3 rounded-md flex items-center gap-3 hover:bg-red-500 hover:text-white hover:ease-in hover:pl-5 duration-200 cursor-pointer" id="logout">
-                <i class="fa-solid fa-right-from-bracket text-lg"></i>
-                <a href="" class="sidebar-text hidden whitespace-nowrap">Logout</a>
-            </div>
-        </div>
-    </aside>
+    <?php include __DIR__ . '/components/sidebar.php'; ?>
 
     <main class="flex-auto bg-white h-full w-0 py-12 px-6 md:p-6 overflow-y-scroll">
         <header class="main-header flex items-center flex-col w-full md:flex-row md:gap-3">
@@ -73,7 +23,7 @@
             <i class="fa-solid fa-square-plus"></i>
             <button class="cursor-pointer">Add Task</button>
         </section>
-        <div class="filter-container flex flex-col mb-3 md:flex-row gap-3 w-full text-sm">
+        <div class="filter-container flex flex-row mb-3 gap-3 w-full text-sm">
             <div class="filter-item flex flex-col gap-1 flex-1 min-w-0">
                 <div>
                     <i class="fa-solid fa-bars-progress"></i>
@@ -253,6 +203,7 @@
             </div>
         </div>
     </div>
+    
      <script src="/scripts/main.js" type="module"></script>
 </body>
 </html>
