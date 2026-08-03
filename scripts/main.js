@@ -2,7 +2,7 @@ import { loginUser, logoutUser, signupUser } from "./api/auth/authApi.js";
 import { createTask, deleteTask, readTasks, updateTask } from "./api/tasksApi.js";
 import { showConfirmDeleteModal, showTaskModal } from "./api/ui/modal.js";
 import { renderTasks } from "./api/ui/tasksUi.js";
-import { filterByDueDate, filterByListType } from "./api/utils/filterTask.js";
+import { filterByDueDate, filterByListType, filterByStatus } from "./api/utils/filterTask.js";
 import { clearForm, generateRandomQuotes, greet, refreshTasks } from "./api/utils/textsHelper.js";
 
 const taskModal = document.getElementById("taskModal");
@@ -13,6 +13,7 @@ const tasksContainer = document.querySelector(".tasks-container");
 const signupForm = document.getElementById("signupForm");
 const loginForm = document.getElementById("loginForm");
 const logout = document.getElementById("logout");
+const statusSelect = document.getElementById("statusSelect");
 const listTypeSelect = document.getElementById("listTypeSelect");
 const dateSelect = document.getElementById("dateSelect");
 
@@ -186,6 +187,12 @@ if(tasksContainer) {
     initTasks();
 }
 
+if(statusSelect) {
+    statusSelect.addEventListener("change", (e)=> {
+        displayFilteredStatus(e.target.value);
+    });
+}
+
 if (listTypeSelect) {
     listTypeSelect.addEventListener("change", (e)=> {
         displayFilteredListType(e.target.value);
@@ -222,10 +229,23 @@ async function handleDelete(task) {
     deleteID = task.id;
 }
 
+async function displayFilteredStatus(status) {
+    const filteredTasks = await filterByStatus(status);
+
+    refreshTasks();
+
+    if(filteredTasks.length > 0) {
+        info.innerHTML = "";
+        filteredTasks.forEach(task => renderTasks(task, tasksContainer, handleEdit, handleDelete));
+    } else {
+        info.innerHTML = `<i class="fa-regular fa-face-grin-stars"></i> No tasks found.`;
+    }
+}
+
 async function displayFilteredListType(listType) {
     const filteredTasks = await filterByListType(listType);
 
-    refreshTasks(); 
+    refreshTasks();
 
     if (filteredTasks.length > 0) {
         info.innerHTML = "";
