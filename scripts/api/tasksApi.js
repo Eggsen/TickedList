@@ -1,7 +1,7 @@
 // Create tasks
 export async function createTask(taskData) {
     try{
-        const response = await fetch("/api/crud/createTask.php", {
+        const response = await fetch("/api/crud/tasks/createTask.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(taskData),
@@ -19,7 +19,7 @@ export async function createTask(taskData) {
 // Read/Scan tasks
 export async function readTasks() {
     try{
-        const response = await fetch("/api/crud/readTasks.php", {
+        const response = await fetch("/api/crud/tasks/readTasks.php", {
             method: "GET",
             credentials: "include"
         });
@@ -35,7 +35,7 @@ export async function readTasks() {
 // Update task
 export async function updateTask(taskData) {
     try{
-        const response = await fetch("/api/crud/updateTask.php", {
+        const response = await fetch("/api/crud/tasks/updateTask.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(taskData),
@@ -53,7 +53,7 @@ export async function updateTask(taskData) {
 // Delete task
 export async function deleteTask(taskId) {
     try{
-        const response = await fetch("/api/crud/deleteTask.php", {
+        const response = await fetch("/api/crud/tasks/deleteTask.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({id: taskId}),
