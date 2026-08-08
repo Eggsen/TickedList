@@ -34,36 +34,38 @@
                     </button>
                 </div>
             </section>
-            <section class="py-4 px-4 rounded-lg shadow-md shadow-blue-500/50">
-                <header class="main-header flex items-center justify-start w-full mb-3">
-                    <span class="text-2xl font-medium">Personal Information</span>
+            <section id="editInfo" class="py-4 px-4 rounded-lg shadow-md shadow-blue-500/50">
+                <p id="debug"></p>
+                <header class="main-header flex items-center justify-between w-full mb-3">
+                    <span class="text-xl md:text-2xl font-medium">Personal Information</span>
+                    <button id="editPersonal"><i class="fa-solid fa-pen-to-square"></i></button>
                 </header>
                 <fieldset class="grid grid-cols-2 gap-3">
                     <div class="flex flex-col gap-1">
                         <label for="">First Name</label>
-                        <input class="bg-gray-200 rounded-md" type="text" readonly>
+                        <input class="bg-gray-200 rounded-md" type="text" id="editFirstName" readonly>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="">Last Name</label>
-                        <input class="bg-gray-200 rounded-md" type="text" readonly>
+                        <input class="bg-gray-200 rounded-md" type="text" id="editLastName" readonly>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="">Email Address</label>
-                        <input class="bg-gray-200 rounded-md" type="email" readonly>
+                        <input class="bg-gray-200 rounded-md" type="email" id="editEmail" readonly>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="">Contact No.</label>
-                        <input class="bg-gray-200 rounded-md" type="number" readonly>
+                        <input class="bg-gray-200 rounded-md" type="number" id="editContactNo" readonly>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="">Birth Date</label>
-                        <input class="bg-gray-200 rounded-md pl-3" type="date" readonly>
+                        <input class="bg-gray-200 rounded-md pl-3" type="date" id="editBirthdate" readonly>
                     </div>
                 </fieldset>
             </section>
             <section class="py-4 px-4 rounded-lg shadow-md shadow-blue-500/50">
                 <header class="main-header flex items-center justify-start w-full mb-3">
-                    <span class="text-2xl font-medium">Security & Preferences</span>
+                    <span class="text-xl md:text-2xl font-medium">Security & Preferences</span>
                 </header>
                 <div class="grid grid-cols-2 md:flex gap-2">
                     <div class="flex flex-col md:w-1/2">
@@ -88,9 +90,6 @@
                     </div>
                 </div>
             </section>
-            <div class="flex justify-center items-center mt-3">
-                <button class="border-3 border-yellow-400 hover:bg-yellow-400 rounded-md px-4 transition">Edit</button>
-            </div>
         </div>
     </main>
 
