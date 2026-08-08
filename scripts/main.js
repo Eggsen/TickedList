@@ -3,13 +3,14 @@ import { createTask, deleteTask, readTasks, updateTask } from "./api/tasksApi.js
 import { showConfirmDeleteModal, showTaskModal } from "./api/ui/modal.js";
 import { renderTasks } from "./api/ui/tasksUi.js";
 import { filterByDueDate, filterByListType, filterByStatus } from "./api/utils/filterTask.js";
-import { clearForm, generateRandomQuotes, greet, refreshTasks } from "./api/utils/textsHelper.js";
+import { clearForm, generateRandomQuotes, greet, refreshTasks, displayPersonalInfo } from "./api/utils/textsHelper.js";
 import { toggleSidebar } from "./api/utils/transitions.js";
 
 const taskModal = document.getElementById("taskModal");
 const notice = document.getElementById("notice");
 const info = document.getElementById("info");
 const tasksContainer = document.querySelector(".tasks-container");
+const editInfo = document.getElementById("editInfo");
 
 const signupForm = document.getElementById("signupForm");
 const loginForm = document.getElementById("loginForm");
@@ -46,6 +47,10 @@ if(document.getElementById("collapsableSidebar")) {
     toggleSidebar();
 }
 
+if(document.getElementById("editInfo")) {
+    displayPersonalInfo();
+}
+
 // Auths
 if (signupForm) {
     signupForm.addEventListener("submit", async (e) => {
@@ -60,7 +65,7 @@ if (signupForm) {
         const data = await signupUser({firstName, lastName, email, password, confirmPassword});
 
         if (data && data.success) {
-            window.location.href = "/index.html";
+            window.location.href = "/pages/auth/login.html";
         } else if (data) {
             notice.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${data.message}`;
             notice.style.padding = "14px";
@@ -99,6 +104,7 @@ if(logout) {
     });
 }
 
+// CRUD listeners
 if(createBtn) {
     createBtn.addEventListener("click", async (e)=> {
         e.preventDefault();
@@ -192,6 +198,7 @@ if(tasksContainer) {
     initTasks();
 }
 
+// Filter listeners
 if(statusSelect) {
     statusSelect.addEventListener("change", (e)=> {
         displayFilteredStatus(e.target.value);
@@ -234,6 +241,7 @@ async function handleDelete(task) {
     deleteID = task.id;
 }
 
+// Displays
 async function displayFilteredStatus(status) {
     const filteredTasks = await filterByStatus(status);
 
