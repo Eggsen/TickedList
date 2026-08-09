@@ -38,7 +38,7 @@
                 <p id="debug"></p>
                 <header class="main-header flex items-center justify-between w-full mb-3">
                     <span class="text-xl md:text-2xl font-medium">Personal Information</span>
-                    <button id="editPersonal"><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button id="editPersonal"><i id="editIcon" class="fa-solid fa-pen-to-square"></i></button>
                 </header>
                 <fieldset class="grid grid-cols-2 gap-3">
                     <div class="flex flex-col gap-1">
