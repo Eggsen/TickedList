@@ -1,5 +1,5 @@
 import { loginUser, logoutUser, signupUser } from "./api/auth/authApi.js";
-import { updateUser } from "./api/usersApi.js";
+import { updateUserInfo, updateUserPassword } from "./api/usersApi.js";
 import { createTask, deleteTask, readTasks, updateTask } from "./api/tasksApi.js";
 import { showConfirmDeleteModal, showTaskModal } from "./api/ui/modal.js";
 import { renderTasks } from "./api/ui/tasksUi.js";
@@ -24,9 +24,11 @@ const createBtn = document.getElementById("createBtn");
 const editBtn = document.getElementById("editBtn");
 const confirmDeleteBtn = document.getElementById("confirmDelete");
 const editPersonal = document.getElementById("editPersonal");
+const updatePassBtn = document.getElementById("updatePassBtn");
 
 let isEditing = false;
 let isEditingProfile = false;
+let isEditingPassword = false;
 let editingID = null;
 let deleteID = null;
 
@@ -227,7 +229,7 @@ if(editPersonal) {
             const editContactNo = contactNo.value;
             const editBirthdate = birthdate.value;
             
-            const data = await updateUser({editFirstName, editLastName, editEmail, editContactNo, editBirthdate});
+            const data = await updateUserInfo({editFirstName, editLastName, editEmail, editContactNo, editBirthdate});
         
             if(data && data.success) {
                 editFirstName.readOnly = true;
@@ -239,12 +241,62 @@ if(editPersonal) {
                 isEditingProfile = false;
                 editIcon.classList.remove("fa-floppy-disk");
                 editIcon.classList.add("fa-pen-to-square");
+
+                notice.textContent = data.message;
             } else {
-                alert(data?.message || "Failed to update profile.");
+                notice.textContent = data.message;
             }
         }
     });
 }
+  
+if(updatePassBtn) {
+   updatePassBtn.addEventListener("click", async (e)=> {
+        e.preventDefault();
+        
+        const currentPassword = document.getElementById("currentPassword");
+        const newPassword = document.getElementById("newPassword");
+        const confirmNewPassword = document.getElementById("confirmNewPassword");
+
+       if(!isEditingPassword) {
+           currentPassword.readOnly = false;
+           newPassword.readOnly = false;
+           confirmNewPassword.readOnly = false;
+
+           isEditingPassword = true;
+           updatePassBtn.classList.remove("bg-yellow-400");
+           updatePassBtn.classList.add("bg-white");
+       } else {
+           const editCurrentPassword = currentPassword.value;
+           const editNewPassword = newPassword.value;
+           const editConfirmNewPassword = confirmNewPassword.value;
+
+           const data = await updateUserPassword({editCurrentPassword, editNewPassword, editConfirmNewPassword});
+       
+           if(data && data.success) {
+               currentPassword.readOnly = true;
+               newPassword.readOnly = true;
+               confirmNewPassword.readOnly = true;
+
+               currentPassword.value = "";
+               newPassword.value = "";
+               confirmNewPassword.value = "";
+               
+               isEditingPassword = false;
+               updatePassBtn.classList.add("bg-yellow-400");
+               updatePassBtn.classList.remove("bg-white");
+
+               notice.textContent = data.message;
+               notice.classList.remove("bg-red-600/50");
+               notice.classList.add("bg-green-600/50");
+           } else {
+               notice.textContent = data.message;
+               notice.classList.add("bg-red-600/50");
+               notice.classList.remove("bg-green-600/50");
+           }
+       }
+   });
+} 
 
 if(tasksContainer) {
     initTasks();

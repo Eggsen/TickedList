@@ -124,9 +124,6 @@ export async function displayPersonalInfo() {
         email.value = data.users.email;
         contactNo.value = data.users.contact_no;
         birthdate.value = data.users.birthdate;
-        debug.textContent = data.message;
-    } else {
-        debug.textContent = data.message;
     }
 }
 
