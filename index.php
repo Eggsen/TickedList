@@ -14,16 +14,16 @@
     
     <?php include __DIR__ . '/components/sidebar.php'; ?>
 
-    <main class="flex-auto bg-white h-full w-0 py-12 px-6 md:p-6 overflow-y-scroll">
-        <header class="main-header flex items-center flex-col w-full md:flex-row md:gap-3">
+    <main class="flex-auto bg-white h-full w-0 py-6 px-6 md:p-6 overflow-y-scroll">
+        <header class="main-header flex items-center flex-col w-full my-6 md:flex-row md:gap-3">
             <span id="greeting" class="text-4xl font-semibold"></span>
             <q id="quote" class="italic wrap-break-word text-center bg-blue text-blue-950/50"></q>
         </header>
-        <section id="addBox" class="add-box rounded bg-yellow-400 hover:bg-yellow-400/70 active:bg-amber-400 py-1 px-3 w-36 md:w-1/5 text-center my-8 shadow-md shadow-blue-500/50 transition">
+        <section id="addBox" class="add-box rounded bg-yellow-400 hover:bg-yellow-400/70 active:bg-amber-400 mb-6 py-1 px-3 w-36 md:w-1/5 text-center shadow-md shadow-blue-500/50 transition">
             <i class="fa-solid fa-square-plus"></i>
             <button class="cursor-pointer">Add Task</button>
         </section>
-        <div class="filter-container flex flex-row mb-3 gap-3 w-full text-sm">
+        <div class="filter-container flex flex-col md:flex-row mb-3 gap-3 w-full text-sm">
             <div class="filter-item flex flex-col gap-1 flex-1 min-w-0">
                 <div>
                     <i class="fa-solid fa-bars-progress"></i>
@@ -164,7 +164,7 @@
                 <div class="notice flex justify-center w-full px-6">
                     <span class="text-center z-20 w-full wrap-break-word bg-red-600/50 text-white rounded-sm" id="notice"></span>
                 </div>
-                <div class="pill-container flex flex-wrap justify-start sm:justify-end gap-2 py-3 px-6 bg-gray-50/50 border-t border-gray-100">
+                <div class="pill-container flex flex-wrap justify-end gap-2 py-3 px-6 bg-gray-50/50 border-t border-gray-100">
                     <div class="pill flex gap-2 items-center rounded-2xl px-3 py-1 bg-yellow-400 text-xs font-medium cursor-pointer hover:bg-yellow-500 transition">
                         <span>Due Date:</span>
                         <input type="date" id="dueDate">
