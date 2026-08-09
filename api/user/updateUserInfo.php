@@ -89,18 +89,14 @@ try {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
 
-    if($id <= 0) {
-        echo json_encode([
-            "success" => true,
-            "message" => "User not found."
-        ]);
-        exit;
-    } else {
-        echo json_encode([
-            "success" => true,
-            "message" => "User updated successfully."
-        ]);
+    if (isset($first_name)) {
+        $_SESSION["first_name"] = $first_name;
     }
+    
+    echo json_encode([
+        "success" => true,
+        "message" => "User updated successfully."
+    ]);
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode([
