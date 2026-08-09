@@ -15,6 +15,5 @@ if (isset($_SESSION["user_id"])) {
 } else {
     echo json_encode([
         "logged_in" => false
-    ]);
-    
+    ]);  
 }
