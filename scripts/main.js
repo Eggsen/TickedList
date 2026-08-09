@@ -1,4 +1,5 @@
 import { loginUser, logoutUser, signupUser } from "./api/auth/authApi.js";
+import { updateUser } from "./api/usersApi.js";
 import { createTask, deleteTask, readTasks, updateTask } from "./api/tasksApi.js";
 import { showConfirmDeleteModal, showTaskModal } from "./api/ui/modal.js";
 import { renderTasks } from "./api/ui/tasksUi.js";
@@ -22,8 +23,10 @@ const dateSelect = document.getElementById("dateSelect");
 const createBtn = document.getElementById("createBtn");
 const editBtn = document.getElementById("editBtn");
 const confirmDeleteBtn = document.getElementById("confirmDelete");
+const editPersonal = document.getElementById("editPersonal");
 
 let isEditing = false;
+let isEditingProfile = false;
 let editingID = null;
 let deleteID = null;
 
@@ -104,7 +107,7 @@ if(logout) {
     });
 }
 
-// CRUD listeners
+// CRUD listeners (Tasks)
 if(createBtn) {
     createBtn.addEventListener("click", async (e)=> {
         e.preventDefault();
@@ -189,6 +192,55 @@ if(confirmDeleteBtn) {
                 console.log(data.message);
             } else {
                 console.log(data.message);
+            }
+        }
+    });
+}
+
+// Users
+if(editPersonal) {
+    editPersonal.addEventListener("click", async (e)=> {
+        e.preventDefault();
+
+        const firstName = document.getElementById("editFirstName");
+        const lastName = document.getElementById("editLastName");
+        const email = document.getElementById("editEmail");
+        const contactNo = document.getElementById("editContactNo");
+        const birthdate = document.getElementById("editBirthdate");
+
+        const editIcon = document.getElementById("editIcon");
+        
+        if(!isEditingProfile) {
+            firstName.readOnly = false;
+            lastName.readOnly = false;
+            email.readOnly = false;
+            contactNo.readOnly = false;
+            birthdate.readOnly = false;
+
+            isEditingProfile = true;
+            editIcon.classList.remove("fa-pen-to-square");
+            editIcon.classList.add("fa-floppy-disk");
+        } else {
+            const editFirstName = firstName.value;
+            const editLastName = lastName.value;
+            const editEmail = email.value;
+            const editContactNo = contactNo.value;
+            const editBirthdate = birthdate.value;
+            
+            const data = await updateUser({editFirstName, editLastName, editEmail, editContactNo, editBirthdate});
+        
+            if(data && data.success) {
+                editFirstName.readOnly = true;
+                editLastName.readOnly = true;
+                editEmail.readOnly = true;
+                editContactNo.readOnly = true;
+                editBirthdate.readOnly = true;
+
+                isEditingProfile = false;
+                editIcon.classList.remove("fa-floppy-disk");
+                editIcon.classList.add("fa-pen-to-square");
+            } else {
+                alert(data?.message || "Failed to update profile.");
             }
         }
     });
