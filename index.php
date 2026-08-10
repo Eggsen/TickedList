@@ -192,6 +192,74 @@
         </div>
     </div>
 
+    <!--
+    <div id="taskDetailsModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-6 z-10">
+        <div class="modal bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md relative">
+            <div class="task-detail-header text-2xl font-semibold">
+                <span>Task Details</span>
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="flex justify-center mt-2">
+                <span id="taskStatus" class="text-center"></span>
+            </div>
+            <div class="flex justify-center wrap-break-word m-6">
+                <input id="editTitle" type="text" class="font-extrabold text-center text-2xl px-2 rounded-lg" value="No task selected." readonly>
+            </div>
+            <span class="text-lg">Task Description:</span>
+            <div class="flex flex-col gap-3">
+                <textarea 
+                    id="editDescription" 
+                    placeholder="Update a description..." 
+                    readonly
+                    rows="5"
+                    class="w-full text-sm text-gray-700 p-3 bg-white rounded-md focus:outline-none resize-none">
+                </textarea>
+                <div class="flex justify-around gap-1">
+                    <div>
+                        <span>Due Date:</span>
+                        <div class="pill flex items-center text-xs font-medium cursor-pointer transition">
+                            <input type="date" id="editDueDate" class="bg-white px-4 py-1 rounded-md" readonly>
+                        </div>
+                    </div>
+                    <div>
+                        <span>List Type:</span>
+                        <div class="flex flex-col items-center">
+                            <select name="" id="editListType" class="bg-white text-xs font-medium px-4 py-1 rounded-md" disabled>
+                                <option value="Personal">Personal</option>
+                                <option value="Errand">Errand</option>
+                                <option value="Commission">Commission</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Educational">Educational</option>
+                                <option value="Work">Work</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1">
+                    <i class="fa-solid fa-tags"></i>
+                    <span class="text-lg">Tags:</span>
+                </div>
+                <div class="tags-container bg-white px-3 py-1 w-1/2 text-center rounded-md font-medium cursor-pointer">
+                    <i class="fa-solid fa-plus"></i>
+                    <span class="">Add Tags</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    <i class="fa-solid fa-diagram-successor"></i>
+                    <span class="text-lg">Subtask:</span>
+                </div>
+                <div class="tags-container bg-white px-3 py-1 w-1/2 text-center rounded-md font-medium cursor-pointer">
+                    <i class="fa-solid fa-plus"></i>
+                    <span class="">Add Subtask</span>
+                </div>
+            </div>
+            <div class="task-detail-footer flex justify-center items-center gap-3 mt-auto">
+                <button id="deleteBtnMobile" class="px-4 py-1 bg-red-500 hover:bg-red-500/70 active:bg-red-500 text-white cursor-pointer font-medium rounded-lg transition">Delete</button>
+                <button id="editBtnMobile" class="bg-white px-4 py-1 hover:bg-yellow-300 active:bg-white font-medium cursor-pointer rounded-lg transition">Edit</button>
+            </div>
+        </div>
+    </div>
+    -->
+    
     <div id="confirmModal" class="fixed hidden inset-0 bg-black/50 items-center justify-center z-10">
         <div class="modal flex flex-col gap-3 items-center justify-center bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md mx-4 p-4 relative">
             <div>
