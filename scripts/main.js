@@ -8,6 +8,7 @@ import { clearForm, generateRandomQuotes, greet, refreshTasks, displayPersonalIn
 import { toggleSidebar } from "./api/utils/transitions.js";
 
 const taskModal = document.getElementById("taskModal");
+const taskDetailsModal = document.getElementById("taskDetailsModal");
 const notice = document.getElementById("notice");
 const info = document.getElementById("info");
 const tasksContainer = document.querySelector(".tasks-container");
@@ -22,6 +23,7 @@ const dateSelect = document.getElementById("dateSelect");
 
 const createBtn = document.getElementById("createBtn");
 const editBtn = document.getElementById("editBtn");
+const editBtnMobile = document.getElementById("editBtnMobile");
 const confirmDeleteBtn = document.getElementById("confirmDelete");
 const editPersonal = document.getElementById("editPersonal");
 const updatePassBtn = document.getElementById("updatePassBtn");
