@@ -71,7 +71,7 @@ if(array_key_exists("editContactNo", $data)) {
 
 if(array_key_exists("editBirthdate", $data)) {
     $birthdate = !empty($data["editBirthdate"]) ? trim($data["editBirthdate"]) : null;
-    $updates[] = "birthdate = ?";
+    $updates[] = "birth_date = ?";
     $params[] = $birthdate;
 }
 
