@@ -1,9 +1,10 @@
 import { loginUser, logoutUser, signupUser } from "./api/auth/authApi.js";
+import { updatePassword, updateProfile } from "./api/profileApi.js";
 import { createTask, deleteTask, readTasks, updateTask } from "./api/tasksApi.js";
 import { showConfirmDeleteModal, showTaskModal } from "./api/ui/modal.js";
 import { renderTasks } from "./api/ui/tasksUi.js";
 import { filterByDueDate, filterByListType, filterByStatus } from "./api/utils/filterTask.js";
-import { clearForm, generateRandomQuotes, greet, refreshTasks } from "./api/utils/textsHelper.js";
+import { clearForm, displayPersonalInfo, generateRandomQuotes, greet, refreshTasks } from "./api/utils/textsHelper.js";
 import { toggleSidebar } from "./api/utils/transitions.js";
 
 const taskModal = document.getElementById("taskModal");
@@ -21,8 +22,12 @@ const dateSelect = document.getElementById("dateSelect");
 const createBtn = document.getElementById("createBtn");
 const editBtn = document.getElementById("editBtn");
 const confirmDeleteBtn = document.getElementById("confirmDelete");
+const editInfo = document.getElementById("editInfo");
+const updatePassBtn = document.getElementById("updatePassBtn");
 
 let isEditing = false;
+let isEditingProfile = false;
+let isEditingPassword = false;
 let editingID = null;
 let deleteID = null;
 
@@ -46,6 +51,10 @@ if(document.getElementById("collapsableSidebar")) {
     toggleSidebar();
 }
 
+if(document.getElementById("personalInfo")) {
+    displayPersonalInfo();
+}
+
 // Auths
 if (signupForm) {
     signupForm.addEventListener("submit", async (e) => {
@@ -60,7 +69,7 @@ if (signupForm) {
         const data = await signupUser({firstName, lastName, email, password, confirmPassword});
 
         if (data && data.success) {
-            window.location.href = "/index.html";
+            window.location.href = "/pages/auth/login.html";
         } else if (data) {
             notice.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${data.message}`;
             notice.style.padding = "14px";
@@ -99,6 +108,7 @@ if(logout) {
     });
 }
 
+// Tasks
 if(createBtn) {
     createBtn.addEventListener("click", async (e)=> {
         e.preventDefault();
@@ -210,6 +220,108 @@ if(dateSelect) {
     });
 }
 
+// Users
+if(editInfo) {
+    editInfo.addEventListener("click", async (e)=> {
+        e.preventDefault();
+
+        const editInfoIcon = document.getElementById("editInfoIcon");
+        const firstName = document.getElementById("editFirstName");
+        const lastName = document.getElementById("editLastName");
+        const email = document.getElementById("editEmail");
+        const contactNum = document.getElementById("editContactNum");
+        const birthDate = document.getElementById("editBirthDate");
+
+        if(!isEditingProfile) {
+            firstName.readOnly = false;
+            lastName.readOnly = false;
+            email.readOnly = false;
+            contactNum.readOnly = false;
+            birthDate.readOnly = false;
+            isEditingProfile = true;
+
+            editInfoIcon.classList.remove("fa-pen-to-square");
+            editInfoIcon.classList.add("fa-floppy-disk");
+
+            console.log("edit clicked");
+        } else {
+            const editFirstName = firstName.value;
+            const editLastName = lastName.value;
+            const editEmail = email.value;
+            const editContactNum = contactNum.value;
+            const editBirthDate = birthDate.value;
+
+            const data = await updateProfile({editFirstName, editLastName, editEmail, editContactNum, editBirthDate});
+
+            if(data && data.success) {
+                firstName.readOnly = true;
+                lastName.readOnly = true;
+                email.readOnly = true;
+                contactNum.readOnly = true;
+                birthDate.readOnly = true;
+                isEditingProfile = false;
+                
+                editInfoIcon.classList.add("fa-pen-to-square");
+                editInfoIcon.classList.remove("fa-floppy-disk");
+
+                console.log("save clicked");
+                console.log(data.message);
+            } else {
+                console.log(data ? data.message : "Failed to update profile.");
+            }
+        }
+    });
+}
+
+if(updatePassBtn) {
+    updatePassBtn.addEventListener("click", async (e)=> {
+        e.preventDefault();
+
+        const currentPassword = document.getElementById("enterCurrentPassword");
+        const newPassword = document.getElementById("enterNewPassword");
+        
+        if(!isEditingPassword) {
+            currentPassword.readOnly = false;
+            currentPassword.placeholder = "";
+            newPassword.readOnly = false;
+            newPassword.placeholder = "";
+
+            isEditingPassword = true;
+            updatePassBtn.classList.add('bg-yellow-400');
+
+            console.log("Editing password...");
+        } else {
+            const enterCurrentPassword = currentPassword.value;
+            const enterNewPassword = newPassword.value;
+
+            const data = await updatePassword({enterCurrentPassword, enterNewPassword});
+
+            if(data && data.success) {
+                currentPassword.readOnly = true;
+                currentPassword.placeholder = "Enter current password";
+                newPassword.readOnly = true;
+                newPassword.placeholder = "Enter new password";
+
+                currentPassword.value = "";
+                newPassword.value = "";
+                
+                isEditingPassword = false;
+                updatePassBtn.classList.remove('bg-yellow-400');
+
+                notice.textContent = data.message;
+                notice.classList.remove("text-red-600");
+                notice.classList.add("text-green-600");
+                console.log("Save clicked, password updated.");
+                console.log(data.message);
+            } else {
+                notice.textContent = data.message;
+                console.log(data.message);
+            }
+        }
+    });
+}
+
+// Inits
 async function initTasks() {
     const data = await readTasks();
 

@@ -84,7 +84,7 @@ try {
 
     if($id <= 0) {
         echo json_encode([
-            "success" => true,
+            "success" => false,
             "message" => "Task not found."
         ]);
         exit;
