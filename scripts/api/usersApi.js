@@ -17,7 +17,7 @@ export async function updateUserInfo(userInfo) {
     try {
          const response = await fetch("/api/user/updateUserInfo.php", {
             method: "POST",
-            headers: { "Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userInfo),
             credentials: "include"
          });

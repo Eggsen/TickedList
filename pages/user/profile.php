@@ -39,6 +39,9 @@
                     <span class="text-xl md:text-2xl font-medium">Personal Information</span>
                     <button id="editPersonal"><i id="editIcon" class="fa-solid fa-pen-to-square"></i></button>
                 </header>
+                <div class="newInfoNotice flex justify-center w-full">
+                    <span class="text-center w-full ease-in duration-100 wrap-break-word rounded-lg" id="newInfoNotice"></span>
+                </div>
                 <fieldset class="flex flex-col md:grid md:grid-cols-2 gap-3">
                     <div class="flex flex-col gap-1">
                         <label for="">First Name</label>
@@ -84,10 +87,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex flex-col my-3 md:flex gap-2">
-                    <div class="notice flex justify-center w-full">
-                        <span class="text-center w-full ease-in duration-100 wrap-break-word text-white rounded-lg" id="notice"></span>
-                    </div>
+                <div id="newPassNotice" class="newPassNotice flex justify-center w-full my-3">
+                    <span class="text-center w-full ease-in duration-100 wrap-break-word rounded-lg" id="newPassNotice"></span>
+                </div>
+                <div class="flex flex-col my-3 md:flex md:flex-row gap-2">
                     <div class="flex flex-col md:w-1/2">
                         <label for="">Current Password</label>
                         <input id="currentPassword" class="bg-gray-200 rounded-md pl-3" type="password" placeholder="Enter current password" readonly>
@@ -111,7 +114,7 @@
     <aside class="hidden w-1/4 p-6 flex-col h-full md:flex md:items-stretch bg-yellow-400">
         <div class="sidebar-header flex flex-col justify-center items-center">
             <div class="flex justify-center items-center w-full">
-                <span id="menu" class="sidebar-text text-2xl ml-3 font-semibold">Profile summary</span>
+                <span id="menu" class="sidebar-text text-2xl font-semibold">Profile summary</span>
             </div>
             <div class="text-center my-8">
                 <i class="fa-solid fa-circle-user text-9xl"></i>
