@@ -109,24 +109,6 @@ export async function clearForm() {
     document.getElementById("editDueDate").value = "";
 }
 
-export async function displayPersonalInfo() {
-    const firstName = document.getElementById("editFirstName");
-    const lastName = document.getElementById("editLastName");
-    const email = document.getElementById("editEmail");
-    const contactNo = document.getElementById("editContactNo");
-    const birthdate = document.getElementById("editBirthdate");
-    
-    const data = await readUsers();
-
-    if(data && data.success) {
-        firstName.value = data.users.first_name;
-        lastName.value = data.users.last_name;
-        email.value = data.users.email;
-        contactNo.value = data.users.contact_no;
-        birthdate.value = data.users.birthdate;
-    }
-}
-
 export function refreshTasks() {
     tasksContainer.innerHTML = "";
     taskStatus.innerHTML = "";
@@ -138,20 +120,19 @@ export async function displayPersonalInfo() {
         const firstName = document.getElementById("editFirstName");
         const lastName = document.getElementById("editLastName");
         const email = document.getElementById("editEmail");
-        const contactNum = document.getElementById("editContactNum");
-        const birthDate = document.getElementById("editBirthDate");
+        const contactNo = document.getElementById("editContactNo");
+        const birthdate = document.getElementById("editBirthdate");
+        
+        const data = await readUsers();
 
-        const data = await checkSession();
-
-        if(data && data.logged_in) {
-            firstName.value = data.user.first_name;
-            lastName.value = data.user.last_name;
-            email.value = data.user.email;
-            contactNum.value = data.user.contact_no;
-            birthDate.value = data.user.birth_date;
+        if(data && data.success) {
+            firstName.value = data.users.first_name ?? "";
+            lastName.value = data.users.last_name ?? "";
+            email.value = data.users.email ?? "";
+            contactNo.value = data.users.contact_no ?? "";
+            birthdate.value = data.users.birth_date ?? "";
         }
     } catch(error) {
         console.log("Error fetching personal information. " + error);
     }
-    
 }
