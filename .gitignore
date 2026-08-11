@@ -4,3 +4,6 @@ node_modules/
 # OS files
 .DS_Store
 *.log
+
+# my face
+assets/images/2x2-photo-me.jpeg
