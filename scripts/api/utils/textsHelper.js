@@ -110,3 +110,27 @@ export function refreshTasks() {
     tasksContainer.innerHTML = "";
     taskStatus.innerHTML = "";
 }
+
+// User profile
+export async function displayPersonalInfo() {
+    try{
+        const firstName = document.getElementById("editFirstName");
+        const lastName = document.getElementById("editLastName");
+        const email = document.getElementById("editEmail");
+        const contactNum = document.getElementById("editContactNum");
+        const birthDate = document.getElementById("editBirthDate");
+
+        const data = await checkSession();
+
+        if(data && data.logged_in) {
+            firstName.value = data.user.first_name;
+            lastName.value = data.user.last_name;
+            email.value = data.user.email;
+            contactNum.value = data.user.contact_no;
+            birthDate.value = data.user.birth_date;
+        }
+    } catch(error) {
+        console.log("Error fetching personal information. " + error);
+    }
+    
+}
