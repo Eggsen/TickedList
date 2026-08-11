@@ -43,9 +43,9 @@
             <i class="fa-solid fa-circle-user"></i>
             <a href="/pages/user/profile.php" class="sidebar-text hidden whitespace-nowrap">Profile</a>
         </div>
-        <div class="item py-2 px-3 rounded-md flex items-center gap-3 active:bg-yellow-400/50 hover:bg-yellow-400 hover:ease-in hover:pl-5 duration-200 cursor-pointer">
-            <i class="fa-solid fa-gears text-lg"></i>
-            <a href="" class="sidebar-text hidden whitespace-nowrap">Settings</a>
+        <div class="item py-2 px-3 rounded-md flex items-center gap-3 active:bg-yellow-400/50 hover:bg-red-500 hover:text-white hover:ease-in hover:pl-5 duration-200 cursor-pointer" id="logout"">
+            <i class="fa-solid fa-right-from-bracket text-lg"></i>
+            <a href="" class="sidebar-text hidden whitespace-nowrap">Logout</a>
         </div>
         <div class="item py-2 px-3 rounded-md flex items-center gap-3 active:bg-yellow-400/50 hover:bg-red-500 hover:text-white hover:ease-in hover:pl-5 duration-200 cursor-pointer" id="logout">
             <i class="fa-solid fa-right-from-bracket text-lg"></i>

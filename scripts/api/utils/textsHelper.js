@@ -1,9 +1,12 @@
 import { checkSession } from "../auth/authApi.js";
+import { readUsers } from "../usersApi.js";
 
 const greeting = document.getElementById("greeting");
 const quote = document.getElementById("quote");
 const tasksContainer = document.querySelector(".tasks-container");
 const taskStatus = document.getElementById("taskStatus");
+
+const debug = document.getElementById("debug");
 
 export async function greet() {
     if (!greeting) return;
@@ -104,6 +107,24 @@ export async function clearForm() {
     document.getElementById("editTitle").value = "No tasks selected.";
     document.getElementById("editDescription").value = "";
     document.getElementById("editDueDate").value = "";
+}
+
+export async function displayPersonalInfo() {
+    const firstName = document.getElementById("editFirstName");
+    const lastName = document.getElementById("editLastName");
+    const email = document.getElementById("editEmail");
+    const contactNo = document.getElementById("editContactNo");
+    const birthdate = document.getElementById("editBirthdate");
+    
+    const data = await readUsers();
+
+    if(data && data.success) {
+        firstName.value = data.users.first_name;
+        lastName.value = data.users.last_name;
+        email.value = data.users.email;
+        contactNo.value = data.users.contact_no;
+        birthdate.value = data.users.birthdate;
+    }
 }
 
 export function refreshTasks() {

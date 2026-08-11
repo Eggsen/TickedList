@@ -60,3 +60,7 @@ button {
     background-color: #f97316;
     color: white;
 }
+
+#editInfo input {
+    padding: 0px 12px;
+}

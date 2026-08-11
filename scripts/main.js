@@ -1,16 +1,18 @@
 import { loginUser, logoutUser, signupUser } from "./api/auth/authApi.js";
-import { updatePassword, updateProfile } from "./api/profileApi.js";
+import { updateUserInfo, updateUserPassword } from "./api/usersApi.js";
 import { createTask, deleteTask, readTasks, updateTask } from "./api/tasksApi.js";
 import { showConfirmDeleteModal, showTaskModal } from "./api/ui/modal.js";
 import { renderTasks } from "./api/ui/tasksUi.js";
 import { filterByDueDate, filterByListType, filterByStatus } from "./api/utils/filterTask.js";
-import { clearForm, displayPersonalInfo, generateRandomQuotes, greet, refreshTasks } from "./api/utils/textsHelper.js";
+import { clearForm, generateRandomQuotes, greet, refreshTasks, displayPersonalInfo } from "./api/utils/textsHelper.js";
 import { toggleSidebar } from "./api/utils/transitions.js";
 
 const taskModal = document.getElementById("taskModal");
+const taskDetailsModal = document.getElementById("taskDetailsModal");
 const notice = document.getElementById("notice");
 const info = document.getElementById("info");
 const tasksContainer = document.querySelector(".tasks-container");
+const editInfo = document.getElementById("editInfo");
 
 const signupForm = document.getElementById("signupForm");
 const loginForm = document.getElementById("loginForm");
@@ -21,8 +23,9 @@ const dateSelect = document.getElementById("dateSelect");
 
 const createBtn = document.getElementById("createBtn");
 const editBtn = document.getElementById("editBtn");
+const editBtnMobile = document.getElementById("editBtnMobile");
 const confirmDeleteBtn = document.getElementById("confirmDelete");
-const editInfo = document.getElementById("editInfo");
+const editPersonal = document.getElementById("editPersonal");
 const updatePassBtn = document.getElementById("updatePassBtn");
 
 let isEditing = false;
@@ -51,7 +54,7 @@ if(document.getElementById("collapsableSidebar")) {
     toggleSidebar();
 }
 
-if(document.getElementById("personalInfo")) {
+if(document.getElementById("editInfo")) {
     displayPersonalInfo();
 }
 
@@ -108,7 +111,7 @@ if(logout) {
     });
 }
 
-// Tasks
+// CRUD listeners (Tasks)
 if(createBtn) {
     createBtn.addEventListener("click", async (e)=> {
         e.preventDefault();
@@ -198,10 +201,110 @@ if(confirmDeleteBtn) {
     });
 }
 
+// Users
+if(editPersonal) {
+    editPersonal.addEventListener("click", async (e)=> {
+        e.preventDefault();
+
+        const firstName = document.getElementById("editFirstName");
+        const lastName = document.getElementById("editLastName");
+        const email = document.getElementById("editEmail");
+        const contactNo = document.getElementById("editContactNo");
+        const birthdate = document.getElementById("editBirthdate");
+
+        const editIcon = document.getElementById("editIcon");
+        
+        if(!isEditingProfile) {
+            firstName.readOnly = false;
+            lastName.readOnly = false;
+            email.readOnly = false;
+            contactNo.readOnly = false;
+            birthdate.readOnly = false;
+
+            isEditingProfile = true;
+            editIcon.classList.remove("fa-pen-to-square");
+            editIcon.classList.add("fa-floppy-disk");
+        } else {
+            const editFirstName = firstName.value;
+            const editLastName = lastName.value;
+            const editEmail = email.value;
+            const editContactNo = contactNo.value;
+            const editBirthdate = birthdate.value;
+            
+            const data = await updateUserInfo({editFirstName, editLastName, editEmail, editContactNo, editBirthdate});
+        
+            if(data && data.success) {
+                editFirstName.readOnly = true;
+                editLastName.readOnly = true;
+                editEmail.readOnly = true;
+                editContactNo.readOnly = true;
+                editBirthdate.readOnly = true;
+
+                isEditingProfile = false;
+                editIcon.classList.remove("fa-floppy-disk");
+                editIcon.classList.add("fa-pen-to-square");
+
+                notice.textContent = data.message;
+            } else {
+                notice.textContent = data.message;
+            }
+        }
+    });
+}
+  
+if(updatePassBtn) {
+   updatePassBtn.addEventListener("click", async (e)=> {
+        e.preventDefault();
+        
+        const currentPassword = document.getElementById("currentPassword");
+        const newPassword = document.getElementById("newPassword");
+        const confirmNewPassword = document.getElementById("confirmNewPassword");
+
+       if(!isEditingPassword) {
+           currentPassword.readOnly = false;
+           newPassword.readOnly = false;
+           confirmNewPassword.readOnly = false;
+
+           isEditingPassword = true;
+           updatePassBtn.classList.remove("bg-yellow-400");
+           updatePassBtn.classList.add("bg-white");
+       } else {
+           const editCurrentPassword = currentPassword.value;
+           const editNewPassword = newPassword.value;
+           const editConfirmNewPassword = confirmNewPassword.value;
+
+           const data = await updateUserPassword({editCurrentPassword, editNewPassword, editConfirmNewPassword});
+       
+           if(data && data.success) {
+               currentPassword.readOnly = true;
+               newPassword.readOnly = true;
+               confirmNewPassword.readOnly = true;
+
+               currentPassword.value = "";
+               newPassword.value = "";
+               confirmNewPassword.value = "";
+               
+               isEditingPassword = false;
+               updatePassBtn.classList.add("bg-yellow-400");
+               updatePassBtn.classList.remove("bg-white");
+
+               notice.textContent = data.message;
+               notice.classList.remove("bg-red-600/50");
+               notice.classList.add("bg-green-600/50");
+           } else {
+               notice.textContent = data.message;
+               notice.classList.add("bg-red-600/50");
+               notice.classList.remove("bg-green-600/50");
+           }
+       }
+   });
+} 
+
 if(tasksContainer) {
     initTasks();
 }
 
+// Filter listeners
 if(statusSelect) {
     statusSelect.addEventListener("change", (e)=> {
         displayFilteredStatus(e.target.value);
@@ -217,107 +320,6 @@ if (listTypeSelect) {
 if(dateSelect) {
     dateSelect.addEventListener("change", (e)=> {
         displayFilteredDate(e.target.value);
-    });
-}
-
-// Users
-if(editInfo) {
-    editInfo.addEventListener("click", async (e)=> {
-        e.preventDefault();
-
-        const editInfoIcon = document.getElementById("editInfoIcon");
-        const firstName = document.getElementById("editFirstName");
-        const lastName = document.getElementById("editLastName");
-        const email = document.getElementById("editEmail");
-        const contactNum = document.getElementById("editContactNum");
-        const birthDate = document.getElementById("editBirthDate");
-
-        if(!isEditingProfile) {
-            firstName.readOnly = false;
-            lastName.readOnly = false;
-            email.readOnly = false;
-            contactNum.readOnly = false;
-            birthDate.readOnly = false;
-            isEditingProfile = true;
-
-            editInfoIcon.classList.remove("fa-pen-to-square");
-            editInfoIcon.classList.add("fa-floppy-disk");
-
-            console.log("edit clicked");
-        } else {
-            const editFirstName = firstName.value;
-            const editLastName = lastName.value;
-            const editEmail = email.value;
-            const editContactNum = contactNum.value;
-            const editBirthDate = birthDate.value;
-
-            const data = await updateProfile({editFirstName, editLastName, editEmail, editContactNum, editBirthDate});
-
-            if(data && data.success) {
-                firstName.readOnly = true;
-                lastName.readOnly = true;
-                email.readOnly = true;
-                contactNum.readOnly = true;
-                birthDate.readOnly = true;
-                isEditingProfile = false;
-                
-                editInfoIcon.classList.add("fa-pen-to-square");
-                editInfoIcon.classList.remove("fa-floppy-disk");
-
-                console.log("save clicked");
-                console.log(data.message);
-            } else {
-                console.log(data ? data.message : "Failed to update profile.");
-            }
-        }
-    });
-}
-
-if(updatePassBtn) {
-    updatePassBtn.addEventListener("click", async (e)=> {
-        e.preventDefault();
-
-        const currentPassword = document.getElementById("enterCurrentPassword");
-        const newPassword = document.getElementById("enterNewPassword");
-        
-        if(!isEditingPassword) {
-            currentPassword.readOnly = false;
-            currentPassword.placeholder = "";
-            newPassword.readOnly = false;
-            newPassword.placeholder = "";
-
-            isEditingPassword = true;
-            updatePassBtn.classList.add('bg-yellow-400');
-
-            console.log("Editing password...");
-        } else {
-            const enterCurrentPassword = currentPassword.value;
-            const enterNewPassword = newPassword.value;
-
-            const data = await updatePassword({enterCurrentPassword, enterNewPassword});
-
-            if(data && data.success) {
-                currentPassword.readOnly = true;
-                currentPassword.placeholder = "Enter current password";
-                newPassword.readOnly = true;
-                newPassword.placeholder = "Enter new password";
-
-                currentPassword.value = "";
-                newPassword.value = "";
-                
-                isEditingPassword = false;
-                updatePassBtn.classList.remove('bg-yellow-400');
-
-                notice.textContent = data.message;
-                notice.classList.remove("text-red-600");
-                notice.classList.add("text-green-600");
-                console.log("Save clicked, password updated.");
-                console.log(data.message);
-            } else {
-                notice.textContent = data.message;
-                console.log(data.message);
-            }
-        }
     });
 }
 
@@ -346,6 +348,7 @@ async function handleDelete(task) {
     deleteID = task.id;
 }
 
+// Displays
 async function displayFilteredStatus(status) {
     const filteredTasks = await filterByStatus(status);
 

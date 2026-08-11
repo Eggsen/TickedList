@@ -1,7 +1,7 @@
 <?php
 
 $host = "127.0.0.1";
-$dbname = "tickedlist_db";
+$dbname = "TickedList_db";
 $username = "root";
 $password = "";
 

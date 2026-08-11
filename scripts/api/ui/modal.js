@@ -6,6 +6,8 @@ const closeBtn = document.getElementById("close");
 const confirmCancel = document.getElementById("confirmCancel");
 const confirmDel = document.getElementById("confirmDelete");
 
+const taskDetailsModal = document.getElementById("taskDetailsModal");
+
 export function showTaskModal() {
     if (!addBox || !taskModal) return;
 
@@ -56,4 +58,14 @@ export function showConfirmDeleteModal() {
     confirmCancel.addEventListener("click", closeModal);
     confirmDel.addEventListener("click", closeModal);
 
+}
+
+export function showTaskDetailsModal(task) {
+    document.getElementById("editTitle").value = task.title;
+    document.getElementById("editDescription").value = task.task_description;
+    document.getElementById("editDueDate").value = task.due_date;
+    document.getElementById("editListType").value = task.list_type;
+    
+    taskDetailsModal.classList.remove("hidden");
+    taskDetailsModal.classList.add("flex");
 }
