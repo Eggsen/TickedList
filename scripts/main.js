@@ -4,12 +4,14 @@ import { createTask, deleteTask, readTasks, updateTask } from "./api/tasksApi.js
 import { showConfirmDeleteModal, showTaskModal } from "./api/ui/modal.js";
 import { renderTasks } from "./api/ui/tasksUi.js";
 import { filterByDueDate, filterByListType, filterByStatus } from "./api/utils/filterTask.js";
-import { clearForm, generateRandomQuotes, greet, refreshTasks, displayPersonalInfo } from "./api/utils/textsHelper.js";
+import { clearForm, generateRandomQuotes, greet, refreshTasks, displayPersonalInfo} from "./api/utils/textsHelper.js";
 import { toggleSidebar } from "./api/utils/transitions.js";
 
 const taskModal = document.getElementById("taskModal");
 const taskDetailsModal = document.getElementById("taskDetailsModal");
 const notice = document.getElementById("notice");
+const newPassNotice = document.getElementById("newPassNotice");
+const newInfoNotice = document.getElementById("newInfoNotice");
 const info = document.getElementById("info");
 const tasksContainer = document.querySelector(".tasks-container");
 const editInfo = document.getElementById("editInfo");
@@ -136,49 +138,66 @@ if(createBtn) {
     });
 }
 
-if(editBtn) {
-    editBtn.addEventListener("click", async (e)=> {
-        e.preventDefault();
+async function handleTaskEdit(e, button, isMobile = false) {
+    e.preventDefault();
 
-        const title = document.getElementById("editTitle");
-        const taskDescription = document.getElementById("editDescription");
-        const listType = document.getElementById("editListType");
-        const dueDate = document.getElementById("editDueDate");
+    const suffix = isMobile ? "Mobile" : "";
+    const title = document.getElementById(`editTitle${suffix}`);
+    const taskDescription = document.getElementById(`editDescription${suffix}`);
+    const listType = document.getElementById(`editListType${suffix}`);
+    const dueDate = document.getElementById(`editDueDate${suffix}`);
 
-        if(!isEditing) {
+    if(!isEditing) {
+        if (title) {
             title.readOnly = false;
             title.style.backgroundColor = "white";
-            taskDescription.readOnly = false;
-            listType.disabled = false;
-            dueDate.readOnly = false;
+        }
+        if (taskDescription) taskDescription.readOnly = false;
+        if (listType) listType.disabled = false;
+        if (dueDate) dueDate.readOnly = false;
 
-            editBtn.textContent = "Save Changes";
-            isEditing = true;
-        } else {
-            const editTitle = title.value;
-            const editDescription = taskDescription.value;
-            const editListType = listType.value;
-            const editDueDate = dueDate.value;
+        button.textContent = "Save Changes";
+        isEditing = true;
+    } else {
+        const editTitle = title ? title.value : "";
+        const editDescription = taskDescription ? taskDescription.value : "";
+        const editListType = listType ? listType.value : "";
+        const editDueDate = dueDate ? dueDate.value : "";
 
-            const data = await updateTask({id: editingID, editTitle, editDescription, editListType, editDueDate});
+        const data = await updateTask({id: editingID, editTitle, editDescription, editListType, editDueDate});
 
-            if(data && data.success) {
+        if(data && data.success) {
+            if (title) {
                 title.readOnly = true;
                 title.style.background = "none";
-                taskDescription.readOnly = true;
-                listType.readOnly = true;
-                dueDate.readOnly = true;
-                refreshTasks();
-                await initTasks();
-                clearForm();
-                editBtn.textContent = "Edit";
-                isEditing = false;
-                console.log(data.message);
-            } else {
-                console.log(data.message);
             }
+            if (taskDescription) taskDescription.readOnly = true;
+            if (listType) listType.disabled = true;
+            if (dueDate) dueDate.readOnly = true;
+
+            refreshTasks();
+            await initTasks();
+            clearForm();
+            button.textContent = "Edit";
+            isEditing = false;
+
+            if (isMobile && taskDetailsModal) {
+                taskDetailsModal.classList.add("hidden");
+                taskDetailsModal.classList.remove("flex");
+            }
+            console.log(data.message);
+        } else {
+            console.log(data ? data.message : "Error updating task.");
         }
-    });
+    }
+};
+
+if(editBtn) {
+    editBtn.addEventListener("click", (e) => handleTaskEdit(e, editBtn, false));
+}
+
+if(editBtnMobile) {
+    editBtnMobile.addEventListener("click", (e) => handleTaskEdit(e, editBtnMobile, true));
 }
 
 if(confirmDeleteBtn) {
@@ -234,19 +253,23 @@ if(editPersonal) {
             const data = await updateUserInfo({editFirstName, editLastName, editEmail, editContactNo, editBirthdate});
         
             if(data && data.success) {
-                editFirstName.readOnly = true;
-                editLastName.readOnly = true;
-                editEmail.readOnly = true;
-                editContactNo.readOnly = true;
-                editBirthdate.readOnly = true;
+                firstName.readOnly = true;
+                lastName.readOnly = true;
+                email.readOnly = true;
+                contactNo.readOnly = true;
+                birthdate.readOnly = true;
 
                 isEditingProfile = false;
                 editIcon.classList.remove("fa-floppy-disk");
                 editIcon.classList.add("fa-pen-to-square");
 
-                notice.textContent = data.message;
+                newInfoNotice.textContent = data.message;
+                newInfoNotice.classList.add("text-green-400");
+                newInfoNotice.classList.remove("text-red-400");
             } else {
-                notice.textContent = data.message;
+                newInfoNotice.textContent = data.message;
+                newInfoNotice.classList.add("text-red-400");
+                newInfoNotice.classList.remove("text-green-400");
             }
         }
     });
@@ -288,13 +311,13 @@ if(updatePassBtn) {
                updatePassBtn.classList.add("bg-yellow-400");
                updatePassBtn.classList.remove("bg-white");
 
-               notice.textContent = data.message;
-               notice.classList.remove("bg-red-600/50");
-               notice.classList.add("bg-green-600/50");
+               newPassNotice.textContent = data.message;
+               newPassNotice.classList.remove("text-red-600/50");
+               newPassNotice.classList.add("text-green-600/50");
            } else {
-               notice.textContent = data.message;
-               notice.classList.add("bg-red-600/50");
-               notice.classList.remove("bg-green-600/50");
+               newPassNotice.textContent = data.message;
+               newPassNotice.classList.add("text-red-600/50");
+               newPassNotice.classList.remove("text-green-600/50");
            }
        }
    });
@@ -337,10 +360,26 @@ async function initTasks() {
 }
 
 async function handleEdit(task) {
-    document.getElementById("editTitle").value = task.title;
-    document.getElementById("editDescription").value = task.task_description;
-    document.getElementById("editDueDate").value = task.due_date;
-    document.getElementById("editListType").value = task.list_type;
+    const editTitle = document.getElementById("editTitle");
+    const editDescription = document.getElementById("editDescription");
+    const editDueDate = document.getElementById("editDueDate");
+    const editListType = document.getElementById("editListType");
+
+    if (editTitle) editTitle.value = task.title;
+    if (editDescription) editDescription.value = task.task_description;
+    if (editDueDate) editDueDate.value = task.due_date;
+    if (editListType) editListType.value = task.list_type;
+
+    const editTitleMobile = document.getElementById("editTitleMobile");
+    const editDescriptionMobile = document.getElementById("editDescriptionMobile");
+    const editDueDateMobile = document.getElementById("editDueDateMobile");
+    const editListTypeMobile = document.getElementById("editListTypeMobile");
+
+    if (editTitleMobile) editTitleMobile.value = task.title;
+    if (editDescriptionMobile) editDescriptionMobile.value = task.task_description;
+    if (editDueDateMobile) editDueDateMobile.value = task.due_date;
+    if (editListTypeMobile) editListTypeMobile.value = task.list_type;
+
     editingID = task.id;
 }
 

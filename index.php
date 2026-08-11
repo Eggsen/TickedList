@@ -191,24 +191,23 @@
             </form>
         </div>
     </div>
-
-    <!--
-    <div id="taskDetailsModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-6 z-10">
+    
+    <div id="taskDetailsModal" class="fixed inset-0 bg-black/50 hidden md:hidden items-center justify-center p-6 z-10">
         <div class="modal bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md relative">
             <div class="task-detail-header text-2xl font-semibold">
                 <span>Task Details</span>
                 <i class="fa-solid fa-circle-info"></i>
             </div>
             <div class="flex justify-center mt-2">
-                <span id="taskStatus" class="text-center"></span>
+                <span id="taskStatusMobile" class="text-center"></span>
             </div>
             <div class="flex justify-center wrap-break-word m-6">
-                <input id="editTitle" type="text" class="font-extrabold text-center text-2xl px-2 rounded-lg" value="No task selected." readonly>
+                <input id="editTitleMobile" type="text" class="font-extrabold text-center text-2xl px-2 rounded-lg" value="No task selected." readonly>
             </div>
             <span class="text-lg">Task Description:</span>
             <div class="flex flex-col gap-3">
                 <textarea 
-                    id="editDescription" 
+                    id="editDescriptionMobile" 
                     placeholder="Update a description..." 
                     readonly
                     rows="5"
@@ -218,13 +217,13 @@
                     <div>
                         <span>Due Date:</span>
                         <div class="pill flex items-center text-xs font-medium cursor-pointer transition">
-                            <input type="date" id="editDueDate" class="bg-white px-4 py-1 rounded-md" readonly>
+                            <input type="date" id="editDueDateMobile" class="bg-white px-4 py-1 rounded-md" readonly>
                         </div>
                     </div>
                     <div>
                         <span>List Type:</span>
                         <div class="flex flex-col items-center">
-                            <select name="" id="editListType" class="bg-white text-xs font-medium px-4 py-1 rounded-md" disabled>
+                            <select name="" id="editListTypeMobile" class="bg-white text-xs font-medium px-4 py-1 rounded-md" disabled>
                                 <option value="Personal">Personal</option>
                                 <option value="Errand">Errand</option>
                                 <option value="Commission">Commission</option>
@@ -258,7 +257,7 @@
             </div>
         </div>
     </div>
-    -->
+   
     
     <div id="confirmModal" class="fixed hidden inset-0 bg-black/50 items-center justify-center z-10">
         <div class="modal flex flex-col gap-3 items-center justify-center bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md mx-4 p-4 relative">

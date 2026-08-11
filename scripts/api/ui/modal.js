@@ -53,19 +53,48 @@ export function showConfirmDeleteModal() {
         confirmModal.classList.remove("flex");
     };
 
-    deleteBtn.addEventListener("click", openModal);
-    
-    confirmCancel.addEventListener("click", closeModal);
-    confirmDel.addEventListener("click", closeModal);
+    const deleteBtn = document.getElementById("deleteBtn");
+    const deleteBtnMobile = document.getElementById("deleteBtnMobile");
 
+    if (deleteBtn) deleteBtn.addEventListener("click", openModal);
+    if (deleteBtnMobile) deleteBtnMobile.addEventListener("click", openModal);
+    
+    if (confirmCancel) confirmCancel.addEventListener("click", closeModal);
+    if (confirmDel) confirmDel.addEventListener("click", closeModal);
 }
 
+// Mobile feature
 export function showTaskDetailsModal(task) {
-    document.getElementById("editTitle").value = task.title;
-    document.getElementById("editDescription").value = task.task_description;
-    document.getElementById("editDueDate").value = task.due_date;
-    document.getElementById("editListType").value = task.list_type;
-    
-    taskDetailsModal.classList.remove("hidden");
-    taskDetailsModal.classList.add("flex");
+    const editTitleMobile = document.getElementById("editTitleMobile");
+    const editDescriptionMobile = document.getElementById("editDescriptionMobile");
+    const editDueDateMobile = document.getElementById("editDueDateMobile");
+    const editListTypeMobile = document.getElementById("editListTypeMobile");
+    const taskStatusMobile = document.getElementById("taskStatusMobile");
+
+    if (editTitleMobile) editTitleMobile.value = task.title;
+    if (editDescriptionMobile) editDescriptionMobile.value = task.task_description;
+    if (editDueDateMobile) editDueDateMobile.value = task.due_date;
+    if (editListTypeMobile) editListTypeMobile.value = task.list_type;
+    if (taskStatusMobile) taskStatusMobile.innerHTML = `Status: ${task.task_status}`;
+
+    if (taskDetailsModal) {
+        taskDetailsModal.classList.remove("hidden");
+        taskDetailsModal.classList.add("flex");
+    }
+}
+
+if (taskDetailsModal) {
+    taskDetailsModal.addEventListener("click", (e) => {
+        if (e.target === taskDetailsModal) {
+            taskDetailsModal.classList.add("hidden");
+            taskDetailsModal.classList.remove("flex");
+        }
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !taskDetailsModal.classList.contains("hidden")) {
+            taskDetailsModal.classList.add("hidden");
+            taskDetailsModal.classList.remove("flex");
+        }
+    });
 }

@@ -1,17 +1,20 @@
 import { updateTask } from "../tasksApi.js";
-// import { showTaskDetailsModal } from "/scripts/api/ui/modal.js";
+import { showTaskDetailsModal } from "/scripts/api/ui/modal.js";
 
 export async function renderTasks(task, taskContainer, isEditing, onDelete) {
     const taskStatus = document.getElementById("taskStatus");
+    const taskStatusMobile = document.getElementById("taskStatusMobile");
     const card = document.createElement("div");
     card.classList.add('card', 'flex', 'flex-col', 'gap-2', 'md:flex-row', 'text-sm', 'md:text-lg', 'px-5', 'py-3', 'px-5', 'rounded-lg', 'items-center', 'justify-between', 'bg-white', 'shadow-md', 'cursor-pointer', 'shadow-blue-500/50');
 
     card.addEventListener("click", (e)=> {
         e.preventDefault();
         
-        taskStatus.innerHTML = `Status: ${task.task_status}`;
+        if (taskStatus) taskStatus.innerHTML = `Status: ${task.task_status}`;
+        if (taskStatusMobile) taskStatusMobile.innerHTML = `Status: ${task.task_status}`;
         isEditing(task);
         onDelete(task);
+        showTaskDetailsModal(task);
     });
 
     const cardLeft = document.createElement("div");
