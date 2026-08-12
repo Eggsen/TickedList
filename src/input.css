@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 body {
     margin: 0;
     padding: 0;
@@ -8,9 +10,17 @@ body {
     color: rgb(13, 27, 58);
 }
 
+.dark body {
+    color: rgb(243, 244, 246); 
+}
+
 label {
     margin-left: 20px;
     color: grey;
+}
+
+.dark label {
+    color: rgb(156, 163, 175); 
 }
 
 button {
@@ -27,8 +37,31 @@ button {
     cursor: pointer;
 }
 
+.dark .card {
+    background-color: rgb(31, 41, 55); 
+    color: rgb(243, 244, 246);         
+}
+
 .filter-container select {
     background-color: rgb(211, 211, 211);
+}
+
+.dark .filter-container select {
+    background-color: rgb(55, 65, 81); 
+    color: rgb(243, 244, 246);
+}
+
+.dark input:not([type='checkbox']):not([type='radio']),
+.dark select{
+    background-color: rgb(55, 65, 81);
+    color: rgb(243, 244, 246);
+}
+
+.dark #editTitle,
+.dark #editDueDate,
+.dark #editListType {
+    background-color: white;
+    color: rgb(17, 24, 39);
 }
 
 .task-list-type.personal {

@@ -5,7 +5,7 @@ export async function renderTasks(task, taskContainer, isEditing, onDelete) {
     const taskStatus = document.getElementById("taskStatus");
     const taskStatusMobile = document.getElementById("taskStatusMobile");
     const card = document.createElement("div");
-    card.classList.add('card', 'flex', 'flex-col', 'gap-2', 'md:flex-row', 'text-sm', 'md:text-lg', 'px-5', 'py-3', 'px-5', 'rounded-lg', 'items-center', 'justify-between', 'bg-white', 'shadow-md', 'cursor-pointer', 'shadow-blue-500/50');
+    card.classList.add('card', 'flex', 'flex-col', 'gap-2', 'md:flex-row', 'text-sm', 'md:text-lg', 'px-5', 'py-3', 'px-5', 'rounded-lg', 'items-center', 'justify-between', 'bg-white', 'dark:bg-gray-800', 'dark:text-gray-100', 'shadow-md', 'cursor-pointer', 'shadow-blue-500/50');
 
     card.addEventListener("click", (e)=> {
         e.preventDefault();
