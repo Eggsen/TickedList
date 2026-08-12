@@ -66,8 +66,14 @@ try {
         ]);
         exit;
     }
-    
-    if(password_verify($currentPasswordInput, $users["password_hash"])) {
+
+    if(password_verify($newPassword, $users["password_hash"])) {
+        echo json_encode([
+            "success" => false,
+            "message" => "New password cannot be the same as your current password."
+        ]);
+        exit; 
+    } else if(password_verify($currentPasswordInput, $users["password_hash"])) {
         $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
         
         $updateSql = "UPDATE users SET password_hash = ? WHERE id = ?";
@@ -86,7 +92,7 @@ try {
             "success" => false,
             "message" => "Incorrect current password. Please try again."
         ]);
-        exit; 
+        exit;
     }
 } catch (PDOException $e) {
     http_response_code(500);
