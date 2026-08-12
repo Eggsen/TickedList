@@ -10,11 +10,25 @@
     <link href="/css/output.css" rel="stylesheet">
     <title>Profile</title>
 </head>
-<body class="w-full h-screen flex relative overflow-hidden">
+<body class="w-full h-screen flex relative overflow-hidden bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
     
     <?php include __DIR__ . '/../../components/sidebar.php'; ?>
 
-    <main class="flex-auto bg-white h-full w-0 py-12 md:p-6 overflow-auto">
+    <!-- Alert notifications for all actions -->
+    <div id="alertBox" class="bg-black/60 transition-all duration-300 ease-out invisible opacity-0 -translate-y-4 pointer-events-none absolute w-10/12 md:w-1/3 p-4 md:top-4 md:right-4 top-4 right-2 rounded-lg z-50">
+        <div class="alert-header flex md:justify-between">
+            <div>
+                <i class="fa-regular fa-circle-check text-green-500"></i>
+                <span id="alertAction" class="font-medium text-white"></span>
+            </div>
+            <div class="hidden md:flex">
+                <button><i class="fa-solid fa-xmark text-white"></i></button>
+            </div>
+        </div>
+        <p id="alertDesc" class="text-white/65">Description here.</p>
+    </div>
+
+    <main class="flex-auto bg-white dark:bg-gray-900 h-full w-0 py-12 md:p-6 overflow-auto">
         <header class="main-header flex items-center justify-center mb-6 w-full">
             <span class="text-4xl font-semibold">User Profile</span>
         </header>
@@ -24,11 +38,11 @@
                     <img class="h-18 w-18 md:h-28 md:w-28 rounded-[100%]" src="/assets/images/2x2-photo-me.jpeg" alt="">
                 </div>
                 <div class="flex flex-col gap-2">
-                    <button class="bg-yellow-400 flex items-center gap-1 py-1 px-2 rounded-md">
+                    <button class="bg-yellow-400 flex items-center gap-1 py-1 px-2 rounded-md text-gray-900 dark:text-gray-900">
                         <i class="fa-solid fa-image"></i>
                         <span>Change Photo</span>
                     </button>
-                    <button class="bg-yellow-400 flex items-center gap-1 py-1 px-2 rounded-md">
+                    <button class="bg-yellow-400 flex items-center gap-1 py-1 px-2 rounded-md text-gray-900 dark:text-gray-900">
                         <i class="fa-solid fa-trash-can"></i>
                         <span>Remove Photo</span>
                     </button>
@@ -72,15 +86,15 @@
                 <div class="grid grid-cols-2 md:flex gap-2">
                     <div class="flex flex-col md:w-1/2">
                         <label for="">Theme</label>
-                        <select name="" id="" class="bg-gray-200 rounded-md pl-3">
+                        <select name="theme" id="themeSelect" class="rounded-md pl-3">
                             <option value="system">System</option>
-                            <option value="system">Dark</option>
-                            <option value="system">Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="light">Light</option>
                         </select>
                     </div>
                     <div class="flex flex-col md:w-1/2">
                         <label for="">Language</label>
-                        <select name="" id="" class="bg-gray-200 rounded-md pl-3">
+                        <select name="" id="" class="rounded-md pl-3">
                             <option value="system">English</option>
                             <option value="system">Filipino</option>
                             <option value="system">Russian</option>
@@ -105,13 +119,13 @@
                     </div>
                 </div>
                 <div class="flex justify-center">
-                    <button id="updatePassBtn" class="bg-yellow-400 shadow-md shadow-blue-500/50 px-3 rounded-md">Update Password</button>
+                    <button id="updatePassBtn" class="bg-yellow-400 shadow-md shadow-blue-500/50 px-3 rounded-md text-gray-900 dark:text-gray-900">Update Password</button>
                 </div>
             </section>
         </div>
     </main>
 
-    <aside class="hidden w-1/4 p-6 flex-col h-full md:flex md:items-stretch bg-yellow-400">
+    <aside class="hidden w-1/4 p-6 flex-col h-full md:flex md:items-stretch bg-yellow-400 text-gray-900 dark:text-gray-900">
         <div class="sidebar-header flex flex-col justify-center items-center">
             <div class="flex justify-center items-center w-full">
                 <span id="menu" class="sidebar-text text-2xl font-semibold">Profile summary</span>
