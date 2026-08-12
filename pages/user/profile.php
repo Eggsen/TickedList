@@ -83,7 +83,7 @@
                 <header class="main-header flex items-center justify-start w-full mb-3">
                     <span class="text-xl md:text-2xl font-medium">Security & Preferences</span>
                 </header>
-                <div class="grid grid-cols-2 md:flex gap-2">
+                <div class="preferences grid grid-cols-2 md:flex gap-2">
                     <div class="flex flex-col md:w-1/2">
                         <label for="">Theme</label>
                         <select name="theme" id="themeSelect" class="rounded-md pl-3">

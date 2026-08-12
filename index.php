@@ -83,7 +83,7 @@
             </div>
         </div>
         <span class="font-medium">YOUR TASKS</span>
-        <section class="tasks-container flex flex-col gap-2 mt-2">
+        <section class="tasks-container flex flex-col gap-3 mt-2">
             <!-- Tasks will be shown here -->
             <div class="info flex justify-center font-extrabold text-center text-2xl mb:text-3xl text-blue-950/50 ">
                 <span id="info"></span>
@@ -100,7 +100,7 @@
             <span id="taskStatus" class="text-center"></span>
         </div>
         <div class="flex justify-center wrap-break-word m-6">
-            <input id="editTitle" type="text" class="font-extrabold text-center text-2xl px-2 rounded-lg" value="No task selected." readonly>
+            <input id="editTitle" type="text" class="font-extrabold text-center text-2xl px-2 bg-white rounded-lg" value="No task selected." readonly>
         </div>
         <span class="text-lg">Task Description:</span>
         <div class="flex flex-col gap-3">
@@ -206,8 +206,9 @@
         </div>
     </div>
     
+    <!-- Mobile Modal -->
     <div id="taskDetailsModal" class="fixed inset-0 bg-black/50 hidden md:hidden items-center justify-center p-6 z-10">
-        <div class="modal bg-white rounded-xl shadow-2xl overflow-hidden w-full p-6 max-w-md relative">
+        <div class="modal bg-white dark:bg-gray-800 dark:text-gray-100 rounded-xl shadow-2xl overflow-hidden w-full p-6 max-w-md relative">
             <div class="task-detail-header text-2xl font-semibold">
                 <span>Task Details</span>
                 <i class="fa-solid fa-circle-info"></i>
@@ -216,7 +217,7 @@
                 <span id="taskStatusMobile" class="text-center"></span>
             </div>
             <div class="flex justify-center wrap-break-word m-6">
-                <input id="editTitleMobile" type="text" class="font-extrabold text-center text-2xl px-2 rounded-lg" value="No task selected." readonly>
+                <input id="editTitleMobile" type="text" class="font-extrabold text-center text-2xl px-2 rounded-lg bg-white dark:bg-gray-700 dark:text-gray-100" value="No task selected." readonly>
             </div>
             <span class="text-lg">Task Description:</span>
             <div class="flex flex-col gap-3">
@@ -225,19 +226,19 @@
                     placeholder="Update a description..." 
                     readonly
                     rows="5"
-                    class="w-full text-sm text-gray-700 p-3 bg-white rounded-md focus:outline-none resize-none">
+                    class="w-full text-sm text-gray-700 dark:text-gray-200 p-3 bg-white dark:bg-gray-700 rounded-md focus:outline-none resize-none">
                 </textarea>
                 <div class="flex justify-around gap-1">
                     <div>
                         <span>Due Date:</span>
                         <div class="pill flex items-center text-xs font-medium cursor-pointer transition">
-                            <input type="date" id="editDueDateMobile" class="bg-white px-4 py-1 rounded-md" readonly>
+                            <input type="date" id="editDueDateMobile" class="bg-white dark:bg-gray-700 dark:text-gray-100 px-4 py-1 rounded-md" readonly>
                         </div>
                     </div>
                     <div>
                         <span>List Type:</span>
                         <div class="flex flex-col items-center">
-                            <select name="" id="editListTypeMobile" class="bg-white text-xs font-medium px-4 py-1 rounded-md" disabled>
+                            <select name="" id="editListTypeMobile" class="bg-white dark:bg-gray-700 dark:text-gray-100 text-xs font-medium px-4 py-1 rounded-md" disabled>
                                 <option value="Personal">Personal</option>
                                 <option value="Errand">Errand</option>
                                 <option value="Commission">Commission</option>
@@ -252,7 +253,7 @@
                     <i class="fa-solid fa-tags"></i>
                     <span class="text-lg">Tags:</span>
                 </div>
-                <div class="tags-container bg-white px-3 py-1 w-1/2 text-center rounded-md font-medium cursor-pointer">
+                <div class="tags-container bg-white dark:bg-gray-700 dark:text-gray-100 px-3 py-1 w-1/2 text-center rounded-md font-medium cursor-pointer">
                     <i class="fa-solid fa-plus"></i>
                     <span class="">Add Tags</span>
                 </div>
@@ -260,14 +261,14 @@
                     <i class="fa-solid fa-diagram-successor"></i>
                     <span class="text-lg">Subtask:</span>
                 </div>
-                <div class="tags-container bg-white px-3 py-1 w-1/2 text-center rounded-md font-medium cursor-pointer">
+                <div class="tags-container bg-white dark:bg-gray-700 dark:text-gray-100 px-3 py-1 w-1/2 text-center rounded-md font-medium cursor-pointer">
                     <i class="fa-solid fa-plus"></i>
                     <span class="">Add Subtask</span>
                 </div>
             </div>
-            <div class="task-detail-footer flex justify-center items-center gap-3 mt-auto">
+            <div class="task-detail-footer flex justify-center items-center gap-3 mt-6">
                 <button id="deleteBtnMobile" class="px-4 py-1 bg-red-500 hover:bg-red-500/70 active:bg-red-500 text-white cursor-pointer font-medium rounded-lg transition">Delete</button>
-                <button id="editBtnMobile" class="bg-white px-4 py-1 hover:bg-yellow-300 active:bg-white font-medium cursor-pointer rounded-lg transition">Edit</button>
+                <button id="editBtnMobile" class="bg-white dark:text-blue-950/50 px-4 py-1 hover:bg-yellow-300 active:bg-white font-medium cursor-pointer rounded-lg transition">Edit</button>
             </div>
         </div>
     </div>

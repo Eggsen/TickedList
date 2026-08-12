@@ -57,11 +57,30 @@ button {
     color: rgb(243, 244, 246);
 }
 
-.dark #editTitle,
-.dark #editDueDate,
-.dark #editListType {
-    background-color: white;
-    color: rgb(17, 24, 39);
+.dark #editTitleMobile,
+.dark #editDueDateMobile,
+.dark #editListTypeMobile {
+    background-color: rgb(55, 65, 81);
+    color: rgb(243, 244, 246);
+}
+
+/* Desktop task details sidebar inputs always remain white with dark text */
+#editTitle,
+#editDueDate,
+#editListType,
+#editDescription {
+    background-color: white !important;
+    color: rgb(17, 24, 39) !important;
+}
+
+
+.preferences select{
+    background-color: rgb(229, 231, 235);
+}
+
+.dark .preferences select {
+    background-color: rgb(55, 65, 81);
+    color: rgb(243, 244, 246);
 }
 
 .task-list-type.personal {

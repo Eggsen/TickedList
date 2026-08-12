@@ -398,7 +398,11 @@ async function handleEditSave(e, button, isMobile = false) {
     if(!isEditing) {
         if (title) {
             title.readOnly = false;
-            title.style.backgroundColor = "white";
+            if (document.documentElement.classList.contains("dark")) {
+                title.style.backgroundColor = isMobile ? "rgb(55, 65, 81)" : "white";
+            } else {
+                title.style.backgroundColor = "white";
+            }
         }
         if (taskDescription) taskDescription.readOnly = false;
         if (listType) listType.disabled = false;
