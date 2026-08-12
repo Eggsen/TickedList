@@ -10,16 +10,30 @@
     <link href="./css/output.css" rel="stylesheet">
     <title>TickedList</title>
 </head>
-<body class="w-full h-screen flex relative overflow-hidden">
+<body class="w-full h-screen flex relative overflow-hidden bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
     
     <?php include __DIR__ . '/components/sidebar.php'; ?>
 
-    <main class="flex-auto bg-white h-full w-0 py-6 px-6 md:p-6 overflow-y-scroll">
+    <!-- Alert notifications for all actions -->
+    <div id="alertBox" class="bg-black/60 transition-all duration-300 ease-out invisible opacity-0 -translate-y-4 pointer-events-none absolute w-10/12 md:w-1/4 p-4 md:top-4 md:right-4 top-4 right-2 rounded-lg z-50">
+        <div class="alert-header flex md:justify-between">
+            <div>
+                <i class="fa-regular fa-circle-check text-green-500"></i>
+                <span id="alertAction" class="font-medium text-white"></span>
+            </div>
+            <div class="hidden md:flex">
+                <button><i class="fa-solid fa-xmark text-white"></i></button>
+            </div>
+        </div>
+        <p id="alertDesc" class="text-white/65">Description here.</p>
+    </div>
+
+    <main class="flex-auto bg-white dark:bg-gray-900 h-full w-0 py-6 px-6 md:p-6 overflow-y-scroll">
         <header class="main-header flex items-center flex-col w-full my-6 md:flex-row md:gap-3">
             <span id="greeting" class="text-4xl font-semibold"></span>
-            <q id="quote" class="italic wrap-break-word text-center bg-blue text-blue-950/50"></q>
+            <q id="quote" class="italic wrap-break-word text-center bg-blue text-blue-950/50 dark:text-white"></q>
         </header>
-        <section id="addBox" class="add-box rounded bg-yellow-400 hover:bg-yellow-400/70 active:bg-amber-400 mb-6 py-1 px-3 w-36 md:w-1/5 text-center shadow-md shadow-blue-500/50 transition">
+        <section id="addBox" class="add-box rounded bg-yellow-400 hover:bg-yellow-400/70 active:bg-amber-400 mb-6 py-1 px-3 w-36 md:w-1/5 text-center shadow-md shadow-blue-500/50 transition text-gray-900 dark:text-gray-900">
             <i class="fa-solid fa-square-plus"></i>
             <button class="cursor-pointer">Add Task</button>
         </section>
@@ -77,7 +91,7 @@
         </section>
     </main>
 
-    <aside class="hidden w-1/4 p-6 flex-col md:flex md:items-stretch bg-yellow-400">
+    <aside class="hidden w-1/4 p-6 flex-col md:flex md:items-stretch bg-yellow-400 text-gray-900 dark:text-gray-900">
         <div class="task-detail-header text-2xl font-semibold">
             <span>Task Details</span>
             <i class="fa-solid fa-circle-info"></i>
@@ -193,7 +207,7 @@
     </div>
     
     <div id="taskDetailsModal" class="fixed inset-0 bg-black/50 hidden md:hidden items-center justify-center p-6 z-10">
-        <div class="modal bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md relative">
+        <div class="modal bg-white rounded-xl shadow-2xl overflow-hidden w-full p-6 max-w-md relative">
             <div class="task-detail-header text-2xl font-semibold">
                 <span>Task Details</span>
                 <i class="fa-solid fa-circle-info"></i>

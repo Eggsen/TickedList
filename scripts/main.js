@@ -6,12 +6,16 @@ import { renderTasks } from "./api/ui/tasksUi.js";
 import { filterByDueDate, filterByListType, filterByStatus } from "./api/utils/filterTask.js";
 import { clearForm, generateRandomQuotes, greet, refreshTasks, displayPersonalInfo} from "./api/utils/textsHelper.js";
 import { toggleSidebar } from "./api/utils/transitions.js";
+import { initDarkMode, toggleDarkMode } from "./api/utils/darkMode.js";
+
+initDarkMode();
 
 const taskModal = document.getElementById("taskModal");
 const taskDetailsModal = document.getElementById("taskDetailsModal");
 const notice = document.getElementById("notice");
 const newPassNotice = document.getElementById("newPassNotice");
 const newInfoNotice = document.getElementById("newInfoNotice");
+const alertBox = document.getElementById("alertBox");
 const info = document.getElementById("info");
 const tasksContainer = document.querySelector(".tasks-container");
 const editInfo = document.getElementById("editInfo");
@@ -38,6 +42,28 @@ let deleteID = null;
 
 if (document.getElementById("greeting")) {
     greet();
+}
+
+const themeSelect = document.getElementById("themeSelect");
+if (themeSelect) {
+    // Pre-select the saved value
+    const saved = localStorage.getItem("theme") || "system";
+    themeSelect.value = saved;
+
+    themeSelect.addEventListener("change", () => {
+        const val = themeSelect.value;
+        if (val === "dark") {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else if (val === "light") {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        } else {
+            localStorage.removeItem("theme");
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            document.documentElement.classList.toggle("dark", prefersDark);
+        }
+    });
 }
 
 if (document.getElementById("taskModal")) {
@@ -129,8 +155,23 @@ if(createBtn) {
         if(data && data.success) {
             refreshTasks();
             await initTasks();
+
             taskModal.classList.add("hidden");
             taskModal.classList.remove("flex");
+
+            if(alertBox) {
+                document.getElementById("alertAction").textContent = "Task created successfully!";
+                document.getElementById("alertDesc").textContent = "A new task has been added to your account.";
+
+                alertBox.classList.remove("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                alertBox.classList.add("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+
+                setTimeout(()=> {
+                    alertBox.classList.remove("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+                    alertBox.classList.add("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                }, 3000);
+            }
+
             clearForm();
         } else {
             notice.textContent = data.message;
@@ -138,66 +179,12 @@ if(createBtn) {
     });
 }
 
-async function handleTaskEdit(e, button, isMobile = false) {
-    e.preventDefault();
-
-    const suffix = isMobile ? "Mobile" : "";
-    const title = document.getElementById(`editTitle${suffix}`);
-    const taskDescription = document.getElementById(`editDescription${suffix}`);
-    const listType = document.getElementById(`editListType${suffix}`);
-    const dueDate = document.getElementById(`editDueDate${suffix}`);
-
-    if(!isEditing) {
-        if (title) {
-            title.readOnly = false;
-            title.style.backgroundColor = "white";
-        }
-        if (taskDescription) taskDescription.readOnly = false;
-        if (listType) listType.disabled = false;
-        if (dueDate) dueDate.readOnly = false;
-
-        button.textContent = "Save Changes";
-        isEditing = true;
-    } else {
-        const editTitle = title ? title.value : "";
-        const editDescription = taskDescription ? taskDescription.value : "";
-        const editListType = listType ? listType.value : "";
-        const editDueDate = dueDate ? dueDate.value : "";
-
-        const data = await updateTask({id: editingID, editTitle, editDescription, editListType, editDueDate});
-
-        if(data && data.success) {
-            if (title) {
-                title.readOnly = true;
-                title.style.background = "none";
-            }
-            if (taskDescription) taskDescription.readOnly = true;
-            if (listType) listType.disabled = true;
-            if (dueDate) dueDate.readOnly = true;
-
-            refreshTasks();
-            await initTasks();
-            clearForm();
-            button.textContent = "Edit";
-            isEditing = false;
-
-            if (isMobile && taskDetailsModal) {
-                taskDetailsModal.classList.add("hidden");
-                taskDetailsModal.classList.remove("flex");
-            }
-            console.log(data.message);
-        } else {
-            console.log(data ? data.message : "Error updating task.");
-        }
-    }
-};
-
 if(editBtn) {
-    editBtn.addEventListener("click", (e) => handleTaskEdit(e, editBtn, false));
+    editBtn.addEventListener("click", (e) => handleEditSave(e, editBtn, false));
 }
 
 if(editBtnMobile) {
-    editBtnMobile.addEventListener("click", (e) => handleTaskEdit(e, editBtnMobile, true));
+    editBtnMobile.addEventListener("click", (e) => handleEditSave(e, editBtnMobile, true));
 }
 
 if(confirmDeleteBtn) {
@@ -212,7 +199,20 @@ if(confirmDeleteBtn) {
                 refreshTasks();
                 await initTasks();
                 clearForm();
-                console.log(data.message);
+
+                if(alertBox) {
+                document.getElementById("alertAction").textContent = "Task deleted successfully!";
+                document.getElementById("alertDesc").textContent = "The task has been deleted.";
+
+                alertBox.classList.remove("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                alertBox.classList.add("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+
+                setTimeout(()=> {
+                    alertBox.classList.remove("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+                    alertBox.classList.add("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                }, 3000);
+
+            }
             } else {
                 console.log(data.message);
             }
@@ -263,6 +263,19 @@ if(editPersonal) {
                 editIcon.classList.remove("fa-floppy-disk");
                 editIcon.classList.add("fa-pen-to-square");
 
+                if(alertBox) {
+                    document.getElementById("alertAction").textContent = "Personal Information updated successfully!";
+                    document.getElementById("alertDesc").textContent = "Restarting the session is encouraged to apply changes.";
+
+                    alertBox.classList.remove("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                    alertBox.classList.add("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+
+                    setTimeout(()=> {
+                        alertBox.classList.remove("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+                        alertBox.classList.add("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                    }, 6000);
+                }
+
                 newInfoNotice.textContent = data.message;
                 newInfoNotice.classList.add("text-green-400");
                 newInfoNotice.classList.remove("text-red-400");
@@ -306,6 +319,19 @@ if(updatePassBtn) {
                currentPassword.value = "";
                newPassword.value = "";
                confirmNewPassword.value = "";
+
+               if(alertBox) {
+                    document.getElementById("alertAction").textContent = "Password updated successfully!";
+                    document.getElementById("alertDesc").textContent = "Restarting the session is encouraged to apply changes.";
+
+                    alertBox.classList.remove("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                    alertBox.classList.add("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+
+                    setTimeout(()=> {
+                        alertBox.classList.remove("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+                        alertBox.classList.add("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                    }, 6000);
+                }
                
                isEditingPassword = false;
                updatePassBtn.classList.add("bg-yellow-400");
@@ -351,7 +377,7 @@ async function initTasks() {
     const data = await readTasks();
 
     if (data && data.success && Array.isArray(data.tasks)) {
-        data.tasks.forEach(task => renderTasks(task, tasksContainer, handleEdit, handleDelete));
+        data.tasks.forEach(task => renderTasks(task, tasksContainer, selectTaskForEdit, handleDelete));
     } else {
         info.innerHTML = `<i class="fa-regular fa-face-grin-stars"></i> Awesome! You completed all Your tasks.`;
         console.log(data.message);
@@ -359,7 +385,76 @@ async function initTasks() {
 
 }
 
-async function handleEdit(task) {
+// Mobile / smaller screens
+async function handleEditSave(e, button, isMobile = false) {
+    e.preventDefault();
+
+    const suffix = isMobile ? "Mobile" : "";
+    const title = document.getElementById(`editTitle${suffix}`);
+    const taskDescription = document.getElementById(`editDescription${suffix}`);
+    const listType = document.getElementById(`editListType${suffix}`);
+    const dueDate = document.getElementById(`editDueDate${suffix}`);
+
+    if(!isEditing) {
+        if (title) {
+            title.readOnly = false;
+            title.style.backgroundColor = "white";
+        }
+        if (taskDescription) taskDescription.readOnly = false;
+        if (listType) listType.disabled = false;
+        if (dueDate) dueDate.readOnly = false;
+
+        button.textContent = "Save Changes";
+        isEditing = true;
+    } else {
+        const editTitle = title ? title.value : "";
+        const editDescription = taskDescription ? taskDescription.value : "";
+        const editListType = listType ? listType.value : "";
+        const editDueDate = dueDate ? dueDate.value : "";
+
+        const data = await updateTask({id: editingID, editTitle, editDescription, editListType, editDueDate});
+
+        if(data && data.success) {
+            if (title) {
+                title.readOnly = true;
+                title.style.background = "none";
+            }
+            if (taskDescription) taskDescription.readOnly = true;
+            if (listType) listType.disabled = true;
+            if (dueDate) dueDate.readOnly = true;
+
+            if(alertBox) {
+                document.getElementById("alertAction").textContent = "Task updated successfully!";
+                document.getElementById("alertDesc").textContent = "The task has been updated.";
+
+                alertBox.classList.remove("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                alertBox.classList.add("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+
+                setTimeout(()=> {
+                    alertBox.classList.remove("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+                    alertBox.classList.add("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                }, 3000);
+            }
+            
+            refreshTasks();
+            await initTasks();
+            clearForm();
+            button.textContent = "Edit";
+            isEditing = false;
+
+            if (isMobile && taskDetailsModal) {
+                taskDetailsModal.classList.add("hidden");
+                taskDetailsModal.classList.remove("flex");
+            }
+            console.log(data.message);
+        } else {
+            console.log(data ? data.message : "Error updating task.");
+        }
+    }
+};
+
+// Desktops / Larger screens
+async function selectTaskForEdit(task) {
     const editTitle = document.getElementById("editTitle");
     const editDescription = document.getElementById("editDescription");
     const editDueDate = document.getElementById("editDueDate");
@@ -395,7 +490,7 @@ async function displayFilteredStatus(status) {
 
     if(filteredTasks.length > 0) {
         info.innerHTML = "";
-        filteredTasks.forEach(task => renderTasks(task, tasksContainer, handleEdit, handleDelete));
+        filteredTasks.forEach(task => renderTasks(task, tasksContainer, selectTaskForEdit, handleDelete));
     } else {
         info.innerHTML = `<i class="fa-regular fa-face-grin-stars"></i> No tasks found.`;
     }
@@ -409,7 +504,7 @@ async function displayFilteredListType(listType) {
     if (filteredTasks.length > 0) {
         info.innerHTML = "";
         filteredTasks.forEach(task => 
-            renderTasks(task, tasksContainer, handleEdit, handleDelete)
+            renderTasks(task, tasksContainer, selectTaskForEdit, handleDelete)
         );
     } else {
         info.innerHTML = `<i class="fa-regular fa-face-grin-stars"></i> No tasks found.`;
@@ -424,7 +519,7 @@ async function displayFilteredDate(order) {
     if (filteredTasks.length > 0) {
         info.innerHTML = "";
         filteredTasks.forEach(task => 
-            renderTasks(task, tasksContainer, handleEdit, handleDelete)
+            renderTasks(task, tasksContainer, selectTaskForEdit, handleDelete)
         );
     } else {
         info.innerHTML = `<i class="fa-regular fa-face-grin-stars"></i> No tasks found.`;
