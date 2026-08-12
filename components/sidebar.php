@@ -1,4 +1,4 @@
-<aside id="collapsableSidebar" class="flex flex-col h-full flex-none transition-all duration-300 ease-in-out w-16 py-6 px-3 bg-yellow-400 md:bg-white border-r-4 items-center overflow-hidden">
+<aside id="collapsableSidebar" class="flex flex-col h-full flex-none transition-all duration-300 ease-in-out w-16 py-6 px-3 bg-yellow-400 md:bg-white dark:bg-gray-800 dark:md:bg-gray-800 border-r-4 border-gray-200 dark:border-gray-700 items-center overflow-hidden">
     <div class="sidebar-header flex justify-center items-center w-full">
         <span id="menu" class="sidebar-text hidden text-2xl ml-3 font-semibold">Menu</span>
         <i id="hamburger" class="fa-solid fa-bars text-xl cursor-pointer"></i>
