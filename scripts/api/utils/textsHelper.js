@@ -131,6 +131,11 @@ export async function displayPersonalInfo() {
             email.value = data.users.email ?? "";
             contactNo.value = data.users.contact_no ?? "";
             birthdate.value = data.users.birth_date ?? "";
+
+            const userAvatar = document.getElementById("userAvatar");
+            if(userAvatar) {
+                userAvatar.src = data.users.profile_photo || "/assets/images/default-avatar.svg";
+            }
         }
     } catch(error) {
         console.log("Error fetching personal information. " + error);
