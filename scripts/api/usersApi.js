@@ -46,3 +46,34 @@ export async function updateUserPassword(userPass) {
          console.log("Error connecting to server. " + error);
     }
 }
+
+export async function uploadUserPhoto(formData) {
+    try {
+        const response = await fetch("/api/user/uploadPhoto.php", {
+            method: "POST",
+            body: formData,
+            credentials: "include"
+        });
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.log("Error connecting to server. " + error);
+    }
+}
+
+export async function removeUserPhoto() {
+    try {
+        const response = await fetch("/api/user/removePhoto.php", {
+            method: "POST",
+            credentials: "include"
+        });
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.log("Error connecting to server. " + error);
+    }
+}
