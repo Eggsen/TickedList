@@ -1,5 +1,5 @@
 import { loginUser, logoutUser, signupUser } from "./api/auth/authApi.js";
-import { updateUserInfo, updateUserPassword } from "./api/usersApi.js";
+import { updateUserInfo, updateUserPassword, uploadUserPhoto, removeUserPhoto } from "./api/usersApi.js";
 import { createTask, deleteTask, readTasks, updateTask } from "./api/tasksApi.js";
 import { showConfirmDeleteModal, showTaskModal } from "./api/ui/modal.js";
 import { renderTasks } from "./api/ui/tasksUi.js";
@@ -33,6 +33,10 @@ const editBtnMobile = document.getElementById("editBtnMobile");
 const confirmDeleteBtn = document.getElementById("confirmDelete");
 const editPersonal = document.getElementById("editPersonal");
 const updatePassBtn = document.getElementById("updatePassBtn");
+const changePhotoBtn = document.getElementById("changePhotoBtn");
+const removePhotoBtn = document.getElementById("removePhotoBtn");
+const photoInput = document.getElementById("photoInput");
+const userAvatar = document.getElementById("userAvatar");
 
 let isEditing = false;
 let isEditingProfile = false;
@@ -347,6 +351,73 @@ if(updatePassBtn) {
            }
        }
    });
+} 
+
+if(changePhotoBtn && photoInput) {
+    changePhotoBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        photoInput.click();
+    });
+
+    photoInput.addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("profile_photo", file);
+
+        const data = await uploadUserPhoto(formData);
+
+        if (data && data.success) {
+            if (userAvatar) {
+                userAvatar.src = data.profile_photo + "?t=" + new Date().getTime();
+            }
+
+            if (alertBox) {
+                document.getElementById("alertAction").textContent = "Photo updated successfully!";
+                document.getElementById("alertDesc").textContent = "Your profile picture has been updated.";
+
+                alertBox.classList.remove("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                alertBox.classList.add("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+
+                setTimeout(() => {
+                    alertBox.classList.remove("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+                    alertBox.classList.add("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                }, 3000);
+            }
+        } else {
+            console.log(data ? data.message : "Error uploading photo.");
+        }
+    });
+}
+
+if(removePhotoBtn) {
+    removePhotoBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        const data = await removeUserPhoto();
+
+        if (data && data.success) {
+            if (userAvatar) {
+                userAvatar.src = "/assets/images/default-avatar.svg";
+            }
+
+            if (alertBox) {
+                document.getElementById("alertAction").textContent = "Photo removed successfully!";
+                document.getElementById("alertDesc").textContent = "Your profile picture has been reset to default.";
+
+                alertBox.classList.remove("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                alertBox.classList.add("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+
+                setTimeout(() => {
+                    alertBox.classList.remove("visible", "opacity-100", "translate-y-0", "pointer-events-auto");
+                    alertBox.classList.add("invisible", "opacity-0", "-translate-y-4", "pointer-events-none");
+                }, 3000);
+            }
+        } else {
+            console.log(data ? data.message : "Error removing photo.");
+        }
+    });
 } 
 
 if(tasksContainer) {
