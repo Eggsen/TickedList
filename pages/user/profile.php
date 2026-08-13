@@ -35,14 +35,15 @@
         <div class="profile-cards flex flex-col gap-3 w-full min-w-70 max-w-4xl mx-auto mb-6">
             <section class="flex items-center gap-3 px-3 py-4 md:gap-24 justify-center rounded-lg shadow-md shadow-blue-500/50">
                 <div class="left flex justify-center ">
-                    <img class="h-18 w-18 md:h-28 md:w-28 rounded-[100%]" src="/assets/images/2x2-photo-me.jpeg" alt="">
+                    <img id="userAvatar" class="h-18 w-18 md:h-28 md:w-28 rounded-[100%] object-cover" src="/assets/images/default-avatar.svg" alt="User Profile Photo">
+                    <input type="file" id="photoInput" accept="image/png, image/jpeg, image/webp" class="hidden">
                 </div>
                 <div class="flex flex-col gap-2">
-                    <button class="bg-yellow-400 flex items-center gap-1 py-1 px-2 rounded-md text-gray-900 dark:text-gray-900">
+                    <button id="changePhotoBtn" class="bg-yellow-400 flex items-center gap-1 py-1 px-2 rounded-md text-gray-900 dark:text-gray-900">
                         <i class="fa-solid fa-image"></i>
                         <span>Change Photo</span>
                     </button>
-                    <button class="bg-yellow-400 flex items-center gap-1 py-1 px-2 rounded-md text-gray-900 dark:text-gray-900">
+                    <button id="removePhotoBtn" class="bg-yellow-400 flex items-center gap-1 py-1 px-2 rounded-md text-gray-900 dark:text-gray-900">
                         <i class="fa-solid fa-trash-can"></i>
                         <span>Remove Photo</span>
                     </button>
