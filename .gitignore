@@ -5,5 +5,4 @@ node_modules/
 .DS_Store
 *.log
 
-# my face
-assets/images/2x2-photo-me.jpeg
+assets/uploads/profile_photos/*
