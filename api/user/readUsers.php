@@ -23,7 +23,7 @@ if(!isset($_SESSION["user_id"])) {
 
 try {
     $currentUserID = $_SESSION["user_id"];
-    $sql = "SELECT id, first_name, last_name, email, contact_no, birth_date FROM users WHERE id = ?";
+    $sql = "SELECT id, first_name, last_name, email, contact_no, birth_date, profile_photo FROM users WHERE id = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$currentUserID]);
     $users = $stmt->fetch(PDO::FETCH_ASSOC);
